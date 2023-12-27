@@ -3,41 +3,49 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from auth.mixins import AccessTokenMixin
+from auth.decoraters import access_token_required
 
 
-class FetchData(APIView):
+# Protected View Testing using Custom Mixins and Decorater
+class FetchData(AccessTokenMixin, APIView):
+    @access_token_required
     def get(self, request):
-        # Create Custom MIXIN to Check if Refresh/Access Token are Valid from COOKIES
-        return Response({"success": True}, status=status.HTTP_200_OK)
+        return Response(
+            {"success": True, "message": "Access Granted!"}, status=status.HTTP_200_OK
+        )
 
 
-class LogoutView(APIView):
+# Logout View
+class LogoutView(AccessTokenMixin, APIView):
+    """
+    This Function Checks BlackLists the Refresh_Token and Delete both cookies i.e. access_token & refresh_token
+    """
+
+    @access_token_required
     def post(self, request, *args, **kwargs):
+        # Fetchign the refresh_token from COOKIE
         refresh_token = request.COOKIES.get("refresh_token")
 
-        if not refresh_token:
-            return Response(
-                {"detail": "Refresh token not available"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        # Blacklist the refresh token
+        RefreshToken(refresh_token).blacklist()
 
-        try:
-            # Blacklist the refresh token
-            RefreshToken(refresh_token).blacklist()
-            # Create a response with a success message
-            response = Response({"success": True})
+        # Create a response with a success message
+        response = Response({"success": True, "message": "Logout Success"})
 
-            # Delete the cookies
-            response.delete_cookie("refresh_token")
-            response.delete_cookie("access_token")
+        # Delete the cookies
+        response.delete_cookie("refresh_token")
+        response.delete_cookie("access_token")
 
-            return response
-        except Exception as e:
-            return Response({"detail": str(e)}, status=500)
+        return response
 
 
 # Login View
 class CustomTokenObtainPairView(TokenObtainPairView):
+    """
+    This Function Authenticates the User LOGIN and Creates 2 Cookies that stores access_token & refresh_token
+    """
+
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
 
