@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    env_file:
+      - .env
+    build: .
+    volumes:
+      - .:/abiralsanchar_backend
+    ports:
+      - 8000:8000
+    image: abiralsanchar_backend:django
+    container_name: abiralsanchar_backend
+    command: python manage.py runserver 0.0.0.0:8000
