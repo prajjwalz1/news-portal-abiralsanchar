@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "4fc2f166-2368-475b-a21c-ba3151000c3c",
+		"name": "AbiralSanchar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31909025"
+	},
+	"item": [
+		{
+			"name": "Create Article",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "नमस्ते साथी",
+							"type": "text"
+						},
+						{
+							"key": "description ",
+							"value": "hello description lorem",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "content test",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "author",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "image1",
+							"type": "file",
+							"src": "/C:/Users/MrAalu/Desktop/TestImage.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/news/article/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"news",
+						"article",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "नमस्ते साथी",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "hello description lorem",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/news/category/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"news",
+						"category",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
