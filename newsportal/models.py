@@ -20,7 +20,7 @@ class Category_Model(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Article_Model(models.Model):

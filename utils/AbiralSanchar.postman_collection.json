@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "4fc2f166-2368-475b-a21c-ba3151000c3c",
+		"_postman_id": "aa4fb8a6-1d4a-4e78-a3b3-0e0125f0c039",
 		"name": "AbiralSanchar",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31909025"
+		"_exporter_id": "27607004"
 	},
 	"item": [
 		{
@@ -16,7 +16,7 @@
 					"formdata": [
 						{
 							"key": "title",
-							"value": "नमस्ते साथी",
+							"value": "मस सास",
 							"type": "text"
 						},
 						{
@@ -42,12 +42,12 @@
 						{
 							"key": "image1",
 							"type": "file",
-							"src": "/C:/Users/MrAalu/Desktop/TestImage.png"
+							"src": "/D:/Extras/VSM Book.jpeg"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/news/article/",
+					"raw": "http://127.0.0.1:8000/api/v1/news/article/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -58,6 +58,7 @@
 					"port": "8000",
 					"path": [
 						"api",
+						"v1",
 						"news",
 						"article",
 						""
@@ -87,7 +88,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/news/category/",
+					"raw": "http://127.0.0.1:8000/api/v1/news/category/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -98,8 +99,170 @@
 					"port": "8000",
 					"path": [
 						"api",
+						"v1",
 						"news",
 						"category",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get FEATURED Article",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/article/featured/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"article",
+						"featured",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ALL Articles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/article/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"article",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get LATEST Article (Not Featured)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/article/latest/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"article",
+						"latest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get TRENDING Articles (Not Featured)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/article/trending/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"article",
+						"trending",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ON_NAVBAR Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/category/navbar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"category",
+						"navbar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Home Articles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/article/categorized/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"article",
+						"categorized",
 						""
 					]
 				}
