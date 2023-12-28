@@ -3,7 +3,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from auth.views import FetchData, CustomTokenObtainPairView, LogoutView
+from authentication_app.views import FetchData, CustomTokenObtainPairView, LogoutView
 
 urlpatterns = [
     path("api/token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),

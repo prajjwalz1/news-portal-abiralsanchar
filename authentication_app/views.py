@@ -3,8 +3,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from auth.mixins import AccessTokenMixin
-from auth.decoraters import access_token_required
+from authentication_app.mixins import AccessTokenMixin
+from authentication_app.decoraters import access_token_required
 
 
 # Protected View Testing using Custom Mixins and Decorater
