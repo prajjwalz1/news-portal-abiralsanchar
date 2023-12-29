@@ -26,6 +26,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # Application definition
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",  # Used to Blacklist Refresh_token
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -147,3 +149,5 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     "SIGNING_KEY": settings.SECRET_KEY,
 }
+
+SPECTACULAR_SETTINGS = {"TITLE": "AbiralSanchar | Django REST Framework | BACKEND"}

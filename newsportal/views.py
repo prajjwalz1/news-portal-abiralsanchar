@@ -137,7 +137,7 @@ class Article_Categorized_Homepage(APIView):
 
         # Serialize the context
         serializer = Combined_Category_Article_Serializer(data=context)
-        serializer.is_valid(raise_exception=True)
+        serializer.is_valid()
 
         return Response(
             {
@@ -182,7 +182,7 @@ class Category_View(APIView):
 
 class Individual_Category_Article(APIView):
     """
-    Fetches LIMITED(10) Articles of Certain Category with PAGINATION
+    Fetches LIMITED Articles of Certain Category with PAGINATION
     """
 
     # Set pagination class for this view
