@@ -15,7 +15,7 @@
       "title": "Category 1",
       "slug": "category-1",
       "description": "Description for Category 1",
-      "is_on_navbar": true,
+      "is_on_navbar": false,
       "is_on_home": true,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
@@ -28,7 +28,7 @@
       "title": "Category 2",
       "slug": "category-2",
       "description": "Description for Category 2",
-      "is_on_navbar": true,
+      "is_on_navbar": false,
       "is_on_home": true,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
@@ -55,7 +55,7 @@
       "slug": "category-4",
       "description": "Description for Category 4",
       "is_on_navbar": true,
-      "is_on_home": true,
+      "is_on_home": false,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
     }
@@ -68,12 +68,11 @@
       "slug": "category-5",
       "description": "Description for Category 5",
       "is_on_navbar": true,
-      "is_on_home": true,
+      "is_on_home": false,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
     }
   },
-
   {
     "model": "newsportal.article_model",
     "pk": 1,
@@ -120,7 +119,7 @@
       "author": 1,
       "image1": "articles/article2.jpg",
       "is_featured": false,
-      "is_trending": false,
+      "is_trending": true,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
     }
@@ -154,7 +153,7 @@
       "author": 1,
       "image1": "articles/article2.jpg",
       "is_featured": false,
-      "is_trending": false,
+      "is_trending": true,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
     }
@@ -201,11 +200,11 @@
       "slug": "article-8",
       "content": "Content for Article 8",
       "description": "Description for Article 8",
-      "category": 2,
+      "category": 1,
       "author": 1,
       "image1": "articles/article2.jpg",
       "is_featured": false,
-      "is_trending": false,
+      "is_trending": true,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
     }
@@ -222,7 +221,7 @@
       "author": 1,
       "image1": "articles/article2.jpg",
       "is_featured": false,
-      "is_trending": false,
+      "is_trending": true,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
     }
@@ -289,7 +288,7 @@
       "category": 3,
       "author": 1,
       "image1": "articles/article2.jpg",
-      "is_featured": false,
+      "is_featured": true,
       "is_trending": false,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
@@ -323,7 +322,7 @@
       "category": 3,
       "author": 1,
       "image1": "articles/article2.jpg",
-      "is_featured": false,
+      "is_featured": true,
       "is_trending": false,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
@@ -337,10 +336,10 @@
       "slug": "article-16",
       "content": "Content for Article 16",
       "description": "Description for Article 16",
-      "category": 3,
+      "category": 1,
       "author": 1,
       "image1": "articles/article2.jpg",
-      "is_featured": false,
+      "is_featured": true,
       "is_trending": false,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
@@ -354,7 +353,7 @@
       "slug": "article-17",
       "content": "Content for Article 17",
       "description": "Description for Article 17",
-      "category": 4,
+      "category": 1,
       "author": 1,
       "image1": "articles/article2.jpg",
       "is_featured": false,
@@ -374,7 +373,7 @@
       "category": 4,
       "author": 1,
       "image1": "articles/article2.jpg",
-      "is_featured": false,
+      "is_featured": true,
       "is_trending": false,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
@@ -442,7 +441,7 @@
       "category": 4,
       "author": 1,
       "image1": "articles/article2.jpg",
-      "is_featured": false,
+      "is_featured": true,
       "is_trending": false,
       "created_at": "2023-12-29 06:44:04.541487",
       "updated_at": "2023-12-29 06:44:04.541487"
@@ -459,10 +458,10 @@
       "category": 4,
       "author": 1,
       "image1": "articles/article2.jpg",
-      "is_featured": false,
-      "is_trending": false,
-      "created_at": "2023-12-29 06:44:04.541487",
-      "updated_at": "2023-12-29 06:44:04.541487"
+      "is_featured": true,
+      "is_trending": true,
+      "created_at": "2023-12-30 06:44:04.541487",
+      "updated_at": "2023-12-30 06:44:04.541487"
     }
   },
   {
@@ -473,13 +472,13 @@
       "slug": "article-24",
       "content": "Content for Article 24",
       "description": "Description for Article 24",
-      "category": 5,
+      "category": 1,
       "author": 1,
       "image1": "articles/article2.jpg",
       "is_featured": false,
       "is_trending": false,
-      "created_at": "2023-12-29 06:44:04.541487",
-      "updated_at": "2023-12-29 06:44:04.541487"
+      "created_at": "2023-12-30 06:44:04.541487",
+      "updated_at": "2023-12-30 06:44:04.541487"
     }
   },
   {
@@ -495,8 +494,8 @@
       "image1": "articles/article2.jpg",
       "is_featured": false,
       "is_trending": false,
-      "created_at": "2023-12-29 06:44:04.541487",
-      "updated_at": "2023-12-29 06:44:04.541487"
+      "created_at": "2023-12-30 06:44:04.541487",
+      "updated_at": "2023-12-30 06:44:04.541487"
     }
   },
   {
@@ -507,13 +506,13 @@
       "slug": "article-26",
       "content": "Content for Article 26",
       "description": "Description for Article 26",
-      "category": 5,
+      "category": 1,
       "author": 1,
       "image1": "articles/article2.jpg",
-      "is_featured": false,
+      "is_featured": true,
       "is_trending": false,
-      "created_at": "2023-12-29 06:44:04.541487",
-      "updated_at": "2023-12-29 06:44:04.541487"
+      "created_at": "2023-12-30 06:44:04.541487",
+      "updated_at": "2023-12-30 06:44:04.541487"
     }
   }
 ]

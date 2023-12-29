@@ -104,29 +104,45 @@ class Article_Trending_View(APIView):
 
 
 class Article_Categorized_Homepage(APIView):
-    # 5 Articles of Each Category that has Value Category.is_on_home = True
+    """
+    5 Articles of Each Category that has Value Category.is_on_home = True
+    """
+
     def get(self, request):
-        category_home = (
-            Category_Model.objects.filter(is_on_home=True)
-            .order_by("-created_at")
-            .values("id")
-        )
+        # Fetching 5 category that have is_on_home = True
+        categories = Category_Model.objects.filter(is_on_home=True).order_by(
+            "-created_at"
+        )[:5]
 
-        total_homepage_category = len(category_home)
+        # This LIST stores 5 category and 5 respective articles per category
+        category_article_list = []
 
-        # Query to get the respective articles for each category with a limit of 5 article per category
-        article_categorized = Article_Model.objects.filter(
-            category__in=category_home
-        ).order_by("-created_at")[: total_homepage_category * 5]
+        for category in categories:
+            # Get 5 Articles of Category 'X'
+            articles = Article_Model.objects.filter(category=category)[:5]
 
-        serializer = Article_Serializer(article_categorized, many=True)
+            # Serializing 5 article model instances  | '.data' = serializer.data
+            serialized_articles = Article_Serializer(articles, many=True).data
 
-        # TODO : Partion Articles based on Categories so,Frontend can List them Respectively
+            # Now we bundle up Category 'X' with 5 respective articles and append to List
+            category_data = {
+                "category_id": category.title,  # Can also send category PK i.e. 'id'
+                "articles": serialized_articles,
+            }
+            category_article_list.append(category_data)
+
+        context = {
+            "category_article_data": category_article_list,
+        }
+
+        # Serialize the context
+        serializer = Combined_Category_Article_Serializer(data=context)
+        serializer.is_valid()
 
         return Response(
             {
                 "success": True,
-                "totalHits": len(article_categorized),
+                "totalHits": len(category_article_list),
                 "data": serializer.data,
             },
             status=status.HTTP_200_OK,
@@ -184,7 +200,12 @@ class Individual_Category_Article(APIView):
             serializer = Article_Serializer(paginated_articles, many=True)
 
             return Response(
-                {"success": True, "data": serializer.data}, status=status.HTTP_200_OK
+                {
+                    "success": True,
+                    "totalHits": len(serializer.data),
+                    "data": serializer.data,
+                },
+                status=status.HTTP_200_OK,
             )
         except Exception as e:
             return Response(

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "820c3ed9-23d8-482f-b099-aa053fccf7d9",
+		"_postman_id": "4e5a0b84-b4fb-4976-84a2-9e63fcdbc078",
 		"name": "AbiralSanchar",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31909025"
+		"_exporter_id": "27607004"
 	},
 	"item": [
 		{
@@ -275,7 +275,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/v1/news/category/cat-asd/?page=2",
+					"raw": "http://127.0.0.1:8000/api/v1/news/category/category-3/?page=1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -289,13 +289,13 @@
 						"v1",
 						"news",
 						"category",
-						"cat-asd",
+						"category-3",
 						""
 					],
 					"query": [
 						{
 							"key": "page",
-							"value": "2"
+							"value": "1"
 						}
 					]
 				}
