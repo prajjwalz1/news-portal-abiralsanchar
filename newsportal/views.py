@@ -137,7 +137,7 @@ class Article_Categorized_Homepage(APIView):
 
         # Serialize the context
         serializer = Combined_Category_Article_Serializer(data=context)
-        serializer.is_valid()
+        serializer.is_valid(raise_exception=True)
 
         return Response(
             {
