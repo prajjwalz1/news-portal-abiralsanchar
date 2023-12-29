@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "aa4fb8a6-1d4a-4e78-a3b3-0e0125f0c039",
+		"_postman_id": "820c3ed9-23d8-482f-b099-aa053fccf7d9",
 		"name": "AbiralSanchar",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27607004"
+		"_exporter_id": "31909025"
 	},
 	"item": [
 		{
@@ -16,7 +16,7 @@
 					"formdata": [
 						{
 							"key": "title",
-							"value": "मस सास",
+							"value": "Cat one",
 							"type": "text"
 						},
 						{
@@ -42,7 +42,7 @@
 						{
 							"key": "image1",
 							"type": "file",
-							"src": "/D:/Extras/VSM Book.jpeg"
+							"src": "/C:/Users/MrAalu/Desktop/TestImage.png"
 						}
 					]
 				},
@@ -264,6 +264,39 @@
 						"article",
 						"categorized",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Articles Related to Category PAGINATED",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/category/cat-asd/?page=2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"category",
+						"cat-asd",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
 					]
 				}
 			},
