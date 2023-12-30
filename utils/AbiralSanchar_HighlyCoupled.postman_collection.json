@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "9c9b8045-643d-4dc5-85b1-8675912f7912",
+		"name": "AbiralSanchar_HighlyCoupled",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27607004"
+	},
+	"item": [
+		{
+			"name": "Homepage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/homepage/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"homepage",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Articles Related to Category PAGINATED",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/category/category-1/?page=2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"category",
+						"category-1",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
