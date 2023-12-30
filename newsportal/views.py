@@ -180,3 +180,31 @@ class Individual_Category_Article_View(APIView):
                 {"success": False, "error": f"{str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class Article_View(APIView):
+    """
+    Create new Article
+    """
+
+    def post(self, request):
+        serializer = Article_Serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {"success": True, "data": serializer.data}, status=status.HTTP_200_OK
+        )
+
+
+class Category_View(APIView):
+    """
+    Create new Category for Article
+    """
+
+    def post(self, request):
+        serializer = Category_Serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {"success": True, "data": serializer.data}, status=status.HTTP_200_OK
+        )
