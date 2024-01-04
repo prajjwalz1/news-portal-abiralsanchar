@@ -22,3 +22,7 @@ urlpatterns = [
         name="redoc",
     ),
 ]
+
+admin.site.site_title = "AbiralSanchar"
+admin.site.site_header = "AbiralSanchar - ADMIN"
+admin.site.index_title = "AbiralSanchar"
