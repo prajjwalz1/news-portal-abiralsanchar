@@ -207,6 +207,73 @@ class Article_View(APIView):
         )
 
     """
+    Gets Single ARTICLE With PK 
+    """
+
+    def get(self, request, pk, format=None):
+        try:
+            article = Article_Model.objects.get(pk=pk)
+            serializer = Article_Serializer(article)
+            return Response(
+                {
+                    "success": True,
+                    "data": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    """
+    This Function Updates Article Model Object using PATCH
+    """
+
+    def patch(self, request, pk, format=None):
+        try:
+            article = Article_Model.objects.get(pk=pk)
+            serializer = Article_Serializer(article, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(
+                    {
+                        "success": True,
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {"success": False, "error": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        except Article_Model.DoesNotExist as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    """
+    This Function DELETE Article Model Object using METHOD
+    """
+
+    def delete(self, request, pk, format=None):
+        try:
+            article = Article_Model.objects.get(pk=pk)
+            article.delete()
+            return Response(
+                {"success": True, "message": f"{article} deleted successfully"},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    """
     Create new Article
     """
 
