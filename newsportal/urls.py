@@ -4,6 +4,7 @@ from newsportal.views import *
 
 urlpatterns = [
     path("api/v1/news/article/", Article_View.as_view()),
+    path("api/v1/news/article/<int:pk>/", Article_View.as_view()),
     path("api/v1/news/category/", Category_View.as_view()),
     path("api/v1/news/homepage/", Homepage_View.as_view()),
     path(
