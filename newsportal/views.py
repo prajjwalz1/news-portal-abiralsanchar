@@ -184,6 +184,29 @@ class Individual_Category_Article_View(APIView):
 
 class Article_View(APIView):
     """
+    Get ALL Articles
+    """
+
+    # Set pagination class for this view
+    pagination_class = PageNumberPagination
+
+    def get(self, request):
+        all_article_query = Article_Model.objects.get_queryset().order_by("-created_at")
+
+        # Use the pagination class to paginate the queryset
+        paginator = self.pagination_class()
+        paginated_articles = paginator.paginate_queryset(all_article_query, request)
+        serializer = Article_Serializer(paginated_articles, many=True)
+        return Response(
+            {
+                "success": True,
+                "totalHits": len(serializer.data),
+                "data": serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    """
     Create new Article
     """
 
@@ -197,6 +220,7 @@ class Article_View(APIView):
 
 
 class Category_View(APIView):
+
     """
     Create new Category for Article
     """
