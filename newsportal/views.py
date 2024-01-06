@@ -184,48 +184,47 @@ class Individual_Category_Article_View(APIView):
 
 class Article_View(APIView):
     """
-    Get ALL Articles
+    Get ALL Articles using : '/article/?page=1' OR Get Single Article using : 'article/1/'
     """
 
     # Set pagination class for this view
     pagination_class = PageNumberPagination
 
-    def get(self, request):
-        all_article_query = Article_Model.objects.get_queryset().order_by("-created_at")
+    def get(self, request, pk=None, format=None):
+        if pk is None:
+            # Its a GET ALL Request so, Fetching all Articles
+            all_article_query = Article_Model.objects.get_queryset().order_by(
+                "-created_at"
+            )
 
-        # Use the pagination class to paginate the queryset
-        paginator = self.pagination_class()
-        paginated_articles = paginator.paginate_queryset(all_article_query, request)
-        serializer = Article_Serializer(paginated_articles, many=True)
-        return Response(
-            {
-                "success": True,
-                "totalHits": len(serializer.data),
-                "data": serializer.data,
-            },
-            status=status.HTTP_200_OK,
-        )
-
-    """
-    Gets Single ARTICLE With PK 
-    """
-
-    def get(self, request, pk, format=None):
-        try:
-            article = Article_Model.objects.get(pk=pk)
-            serializer = Article_Serializer(article)
+            paginator = self.pagination_class()
+            paginated_articles = paginator.paginate_queryset(all_article_query, request)
+            serializer = Article_Serializer(paginated_articles, many=True)
             return Response(
                 {
                     "success": True,
+                    "totalHits": len(serializer.data),
                     "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
             )
-        except Exception as e:
-            return Response(
-                {"success": False, "error": f"{str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        else:
+            # Its a Single Article Get Request so , Fetching a single category by PK
+            try:
+                article = Article_Model.objects.get(pk=pk)
+                serializer = Article_Serializer(article)
+                return Response(
+                    {
+                        "success": True,
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            except Exception as e:
+                return Response(
+                    {"success": False, "error": f"{str(e)}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
     """
     This Function Updates Article Model Object using PATCH
@@ -256,7 +255,7 @@ class Article_View(APIView):
             )
 
     """
-    This Function DELETE Article Model Object using METHOD
+    This Function DELETE Article Model Object using PK
     """
 
     def delete(self, request, pk, format=None):
@@ -287,6 +286,97 @@ class Article_View(APIView):
 
 
 class Category_View(APIView):
+
+    """
+    Get ALL Category using : '/category/?page=1' OR Get Single Category using : 'category/1/'
+    """
+
+    # Set pagination class for this view
+    pagination_class = PageNumberPagination
+
+    def get(self, request, pk=None, format=None):
+        if pk is None:
+            # Its a GET ALL Request so, Fetching all categories
+            all_category_query = Category_Model.objects.get_queryset().order_by(
+                "-created_at"
+            )
+            paginator = self.pagination_class()
+            paginated_category = paginator.paginate_queryset(
+                all_category_query, request
+            )
+            serializer = Category_Serializer(paginated_category, many=True)
+
+            return Response(
+                {
+                    "success": True,
+                    "totalHits": len(serializer.data),
+                    "data": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            # Its a Single Category Get Request so , Fetching a single category by PK
+            try:
+                category = Category_Model.objects.get(pk=pk)
+                serializer = Category_Serializer(category)
+                return Response(
+                    {
+                        "success": True,
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            except Exception as e:
+                return Response(
+                    {"success": False, "error": f"{str(e)}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+    """
+    This Function Updates Category Model Object using PATCH
+    """
+
+    def patch(self, request, pk, format=None):
+        try:
+            category = Category_Model.objects.get(pk=pk)
+            serializer = Category_Serializer(category, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(
+                    {
+                        "success": True,
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {"success": False, "error": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        except Category_Model.DoesNotExist as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    """
+    This Function DELETE Category Model Object using PK
+    """
+
+    def delete(self, request, pk, format=None):
+        try:
+            category = Category_Model.objects.get(pk=pk)
+            category.delete()
+            return Response(
+                {"success": True, "message": f"{category} deleted successfully"},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     """
     Create new Category for Article
