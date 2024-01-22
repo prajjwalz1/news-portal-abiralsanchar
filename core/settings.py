@@ -1,21 +1,27 @@
 from pathlib import Path
 import os
-from django.conf import settings
-
-# Python-Dotenv
-from dotenv import load_dotenv
-
-load_dotenv()
+import platform
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# python-dotenv
+from dotenv import load_dotenv
+
+system = platform.system()
+
+if system == "Windows":
+    load_dotenv()
+elif system == "Linux":
+    env_location = os.path.join(BASE_DIR, ".env")
+    load_dotenv(env_location)
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG") == "True"
+DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = ["*"]
 
@@ -143,7 +149,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOW_ALL_ORIGINS: True
+CORS_ALLOW_ALL_ORIGINS = True
 
 from datetime import timedelta
 
@@ -154,7 +160,6 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": settings.SECRET_KEY,
 }
 
 SPECTACULAR_SETTINGS = {"TITLE": "AbiralSanchar | Django REST Framework | BACKEND"}
