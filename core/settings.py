@@ -1,6 +1,8 @@
 from pathlib import Path
 import os
 import platform
+from django.conf import settings
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,6 +21,8 @@ elif system == "Linux":
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
+ADMIN_URL = os.getenv("ADMIN_URL")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "True"
@@ -151,15 +155,21 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-from datetime import timedelta
+
+ACCESS_TOKEN_LIFETIME = int(os.getenv("ACCESS_TOKEN_LIFETIME"))
+REFRESH_TOKEN_LIFETIME = int(os.getenv("REFRESH_TOKEN_LIFETIME"))
+SIMPLE_JWT_ALGORITHM = os.getenv("SIMPLE_JWT_ALGORITHM")
+SIMPLE_JWT_SECRET_KEY = os.getenv("SIMPLE_JWT_SECRET_KEY")
+
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=settings.ACCESS_TOKEN_LIFETIME),
+    "REFRESH_TOKEN_LIFETIME": timedelta(seconds=settings.REFRESH_TOKEN_LIFETIME),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
-    "ALGORITHM": "HS256",
+    "ALGORITHM": settings.SIMPLE_JWT_ALGORITHM,
+    "SIGNING_KEY": settings.SIMPLE_JWT_SECRET_KEY,
 }
 
 SPECTACULAR_SETTINGS = {"TITLE": "AbiralSanchar | Django REST Framework | BACKEND"}

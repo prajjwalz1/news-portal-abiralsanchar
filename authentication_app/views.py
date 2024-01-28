@@ -12,7 +12,8 @@ class FetchData(AccessTokenMixin, APIView):
     @access_token_required
     def get(self, request):
         return Response(
-            {"success": True, "message": "Access Granted!"}, status=status.HTTP_200_OK
+            {"success": True, "message": "Access Granted!"},
+            status=status.HTTP_200_OK,
         )
 
 
@@ -22,22 +23,35 @@ class LogoutView(AccessTokenMixin, APIView):
     This Function Checks BlackLists the Refresh_Token and Delete both cookies i.e. access_token & refresh_token
     """
 
-    @access_token_required
     def post(self, request, *args, **kwargs):
         # Fetchign the refresh_token from COOKIE
         refresh_token = request.COOKIES.get("refresh_token")
 
-        # Blacklist the refresh token
-        RefreshToken(refresh_token).blacklist()
+        if refresh_token == None:
+            return Response(
+                {"success:": False, "error": "User not Logged In!"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
-        # Create a response with a success message
-        response = Response({"success": True, "message": "Logout Success"})
+        try:
+            # Blacklist the refresh token
+            RefreshToken(refresh_token).blacklist()
 
-        # Delete the cookies
-        response.delete_cookie("refresh_token")
-        response.delete_cookie("access_token")
+            # Clear cookies
+            response = Response({"success": True, "message": "Logout Success"})
+            response.delete_cookie("access_token")
+            response.delete_cookie("refresh_token")
+            return response
 
-        return response
+        except Exception as e:
+            return Response(
+                {"success:": False, "error": f"Logout failed. {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+import time, threading
+from django.conf import settings
 
 
 # Login View
@@ -48,6 +62,15 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
+
+        # countdown() function is for testing the jwt access token expiry
+        def countdown():
+            for i in range(settings.ACCESS_TOKEN_LIFETIME + 1):
+                print(i)
+                time.sleep(1)
+
+        countdown_thread = threading.Thread(target=countdown)
+        countdown_thread.start()
 
         # Customize the response to set tokens in cookies
         if "access" and "refresh" in response.data:

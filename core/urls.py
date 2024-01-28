@@ -5,9 +5,10 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from django.conf import settings
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path(settings.ADMIN_URL, admin.site.urls),
     path("", include("authentication_app.urls")),
     path("", include("newsportal.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
