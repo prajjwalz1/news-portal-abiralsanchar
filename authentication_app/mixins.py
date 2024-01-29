@@ -10,12 +10,17 @@ class AccessTokenMixin:
         refresh_token = request.COOKIES.get("refresh_token")
         access_token = request.COOKIES.get("access_token")
 
+        # If either of access/refresh token are not present then its a Guest User so, clear the cookie and Response with 'ACCESS DENIED'
         if access_token == None or refresh_token == None:
-            return Response(
+            response = Response(
                 {"success:": False, "error": "ACCESS DENIED! User not Logged-In"},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+            response.delete_cookie("access_token")
+            response.delete_cookie("refresh_token")
+            return response
 
+        # Its a Valid user which has been validate by custom middleware so, decode and verify the access token (OR new access token that got refreshed in middleware)
         try:
             jwt.decode(
                 access_token,

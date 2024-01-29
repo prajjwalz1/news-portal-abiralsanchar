@@ -3,12 +3,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from authentication_app.mixins import AccessTokenMixin
 from authentication_app.decoraters import access_token_required
 
 
 # Protected View Testing using Custom Mixins and Decorater
-class FetchData(AccessTokenMixin, APIView):
+class FetchData(APIView):
     @access_token_required
     def get(self, request):
         return Response(
@@ -18,7 +17,7 @@ class FetchData(AccessTokenMixin, APIView):
 
 
 # Logout View
-class LogoutView(AccessTokenMixin, APIView):
+class LogoutView(APIView):
     """
     This Function Checks BlackLists the Refresh_Token and Delete both cookies i.e. access_token & refresh_token
     """
@@ -34,9 +33,6 @@ class LogoutView(AccessTokenMixin, APIView):
             )
 
         try:
-            # Blacklist the refresh token
-            RefreshToken(refresh_token).blacklist()
-
             # Clear cookies
             response = Response({"success": True, "message": "Logout Success"})
             response.delete_cookie("access_token")
@@ -50,10 +46,6 @@ class LogoutView(AccessTokenMixin, APIView):
             )
 
 
-import time, threading
-from django.conf import settings
-
-
 # Login View
 class CustomTokenObtainPairView(TokenObtainPairView):
     """
@@ -62,15 +54,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-
-        # countdown() function is for testing the jwt access token expiry
-        def countdown():
-            for i in range(settings.ACCESS_TOKEN_LIFETIME + 1):
-                print(i)
-                time.sleep(1)
-
-        countdown_thread = threading.Thread(target=countdown)
-        countdown_thread.start()
 
         # Customize the response to set tokens in cookies
         if "access" and "refresh" in response.data:
