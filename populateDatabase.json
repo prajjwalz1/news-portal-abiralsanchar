@@ -12,8 +12,8 @@
     "model": "newsportal.category_model",
     "pk": 1,
     "fields": {
-      "title": "Category 1",
-      "slug": "category-1",
+      "title": "Agricultures",
+      "slug": "Agricultures",
       "description": "Description for Category 1",
       "is_on_navbar": false,
       "is_on_home": true,
@@ -25,8 +25,8 @@
     "model": "newsportal.category_model",
     "pk": 2,
     "fields": {
-      "title": "Category 2",
-      "slug": "category-2",
+      "title": "Economics",
+      "slug": "Economics",
       "description": "Description for Category 2",
       "is_on_navbar": false,
       "is_on_home": true,
@@ -38,8 +38,8 @@
     "model": "newsportal.category_model",
     "pk": 3,
     "fields": {
-      "title": "Category 3",
-      "slug": "category-3",
+      "title": "Politics",
+      "slug": "Politics",
       "description": "Description for Category 3",
       "is_on_navbar": true,
       "is_on_home": true,
@@ -51,8 +51,8 @@
     "model": "newsportal.category_model",
     "pk": 4,
     "fields": {
-      "title": "Category 4",
-      "slug": "category-4",
+      "title": "Business",
+      "slug": "Business",
       "description": "Description for Category 4",
       "is_on_navbar": true,
       "is_on_home": false,
@@ -64,9 +64,48 @@
     "model": "newsportal.category_model",
     "pk": 5,
     "fields": {
-      "title": "Category 5",
-      "slug": "category-5",
+      "title": "Agro",
+      "slug": "Agro",
       "description": "Description for Category 5",
+      "is_on_navbar": true,
+      "is_on_home": false,
+      "created_at": "2023-12-29 06:44:04.541487",
+      "updated_at": "2023-12-29 06:44:04.541487"
+    }
+  },
+  {
+    "model": "newsportal.category_model",
+    "pk": 6,
+    "fields": {
+      "title": "Farm",
+      "slug": "Farm",
+      "description": "Description for Category 6",
+      "is_on_navbar": true,
+      "is_on_home": true,
+      "created_at": "2023-12-29 06:44:04.541487",
+      "updated_at": "2023-12-29 06:44:04.541487"
+    }
+  },
+  {
+    "model": "newsportal.category_model",
+    "pk": 7,
+    "fields": {
+      "title": "Health",
+      "slug": "Health",
+      "description": "Description for Category 7",
+      "is_on_navbar": false,
+      "is_on_home": true,
+      "created_at": "2023-12-29 06:44:04.541487",
+      "updated_at": "2023-12-29 06:44:04.541487"
+    }
+  },
+  {
+    "model": "newsportal.category_model",
+    "pk": 8,
+    "fields": {
+      "title": "Population",
+      "slug": "Population",
+      "description": "Description for Category 8",
       "is_on_navbar": true,
       "is_on_home": false,
       "created_at": "2023-12-29 06:44:04.541487",
@@ -507,6 +546,40 @@
       "content": "Content for Article 26 मुद्रण र टाइपसेटिंग उद्योगको केवल डमी पाठ हो। लोरेम इप्सम 1500 को दशकदेखि उद्योगको मानक डमी पाठ भएको छ, जब एक अज्ञात प्रिन्टरले टाइपको ग्याली लियो र यसलाई टाइप नमूना पुस्तक बनाउन स्क्याम्बल गर्‍यो। यो पाँच शताब्दी मात्र होइन, तर इलेक्ट्रोनिक टाइपसेटिङमा छलांग पनि बाँचेको छ, अनिवार्य रूपमा अपरिवर्तित बाँकी छ। यो 1960s मा Lorem Ipsum खण्डहरू सहित Letraset पानाहरू, र हालैमा Lorem Ipsum को संस्करणहरू सहित Aldus PageMaker जस्ता डेस्कटप प्रकाशन सफ्टवेयरको साथमा लोकप्रिय भएको थियो।",
       "description": "Description for Article 26 मुद्रण र टाइपसेटिंग उद्योगको केवल डमी पाठ हो। लोरेम इप्सम 1500 को दशकदेखि उद्योगको मानक डमी पाठ भएको छ, जब एक अज्ञात प्रिन्टरले टाइपको ग्याली लियो र यसलाई टाइप नमूना पुस्तक बनाउन स्क्याम्बल गर्‍यो। यो पाँच शताब्दी मात्र होइन, तर इलेक्ट्रोनिक टाइपसेटिङमा छलांग पनि बाँचेको छ, अनिवार्य रूपमा अपरिवर्तित बाँकी छ। यो 1960s मा Lorem Ipsum खण्डहरू सहित Letraset पानाहरू, र हालैमा Lorem Ipsum को संस्करणहरू सहित Aldus PageMaker जस्ता डेस्कटप प्रकाशन सफ्टवेयरको साथमा लोकप्रिय भएको थियो।",
       "category": 1,
+      "author": 1,
+      "image1": "articles/article2.jpg",
+      "is_featured": true,
+      "is_trending": false,
+      "created_at": "2023-12-30 06:44:04.541487",
+      "updated_at": "2023-12-30 06:44:04.541487"
+    }
+  },
+  {
+    "model": "newsportal.article_model",
+    "pk": 27,
+    "fields": {
+      "title": "Article 27",
+      "slug": "article-27",
+      "content": "Content for Article 27 मुद्रण र टाइपसेटिंग उद्योगको केवल डमी पाठ हो। लोरेम इप्सम 1500 को दशकदेखि उद्योगको मानक डमी पाठ भएको छ, जब एक अज्ञात प्रिन्टरले टाइपको ग्याली लियो र यसलाई टाइप नमूना बनाउन स्क्याम्बल गर्‍यो। यो पाँच शताब्दी मात्र होइन, तर इलेक्ट्रोनिक टाइपसेटिङमा छलांग पनि बाँचेको छ, अनिवार्य रूपमा अपरिवर्तित बाँकी छ। यो 1960s मा Lorem Ipsum खण्डहरू सहित Letraset पानाहरू, र हालैमा Lorem Ipsum को संस्करणहरू सहित Aldus PageMaker जस्ता डेस्कटप प्रकाशन सफ्टवेयरको साथमा लोकप्रिय भएको थियो।",
+      "description": "Description for Article 27 मुद्रण र टाइपसेटिंग उद्योगको केवल डमी पाठ हो। लोरेम इप्सम 1500 को दशकदेखि उद्योगको मानक डमी पाठ भएको छ, जब एक अज्ञात प्रिन्टरले टाइपको ग्याली लियो र यसलाई टाइप नमूना बनाउन स्क्याम्बल गर्‍यो। यो पाँच शताब्दी मात्र होइन, तर इलेक्ट्रोनिक टाइपसेटिङमा छलांग पनि बाँचेको छ, अनिवार्य रूपमा अपरिवर्तित बाँकी छ। यो 1960s मा Lorem Ipsum खण्डहरू सहित Letraset पानाहरू, र हालैमा Lorem Ipsum को संस्करणहरू सहित Aldus PageMaker जस्ता डेस्कटप प्रकाशन सफ्टवेयरको साथमा लोकप्रिय भएको थियो।",
+      "category": 3,
+      "author": 1,
+      "image1": "articles/article2.jpg",
+      "is_featured": true,
+      "is_trending": false,
+      "created_at": "2023-12-30 06:44:04.541487",
+      "updated_at": "2023-12-30 06:44:04.541487"
+    }
+  },
+  {
+    "model": "newsportal.article_model",
+    "pk": 28,
+    "fields": {
+      "title": "Article 28",
+      "slug": "article-28",
+      "content": "Content for Article 28 मुद्रण र टाइपसेटिंग उद्योगको केवल डमी पाठ हो। लोरेम इप्सम 1500 को दशकदेखि उद्योगको मानक डमी पाठ भएको छ, जब एक अज्ञात प्रिन्टरले टाइपको ग्याली लियो र यसलाई टाइप नमूना पुस्तक बनाउन स्क्याम्बल गर्‍यो। यो पाँच शताब्दी मात्र होइन, तर इलेक्ट्रोनिक टाइपसेटिङमा छलांग पनि बाँचेको छ, अनिवार्य रूपमा अपरिवर्तित बाँकी छ। यो 1960s मा Lorem Ipsum खण्डहरू सहित पानाहरू, र हालैमा Lorem Ipsum को संस्करणहरू सहित Aldus PageMaker जस्ता डेस्कटप प्रकाशन सफ्टवेयरको साथमा लोकप्रिय भएको थियो।",
+      "description": "Description for Article 27 मुद्रण र टाइपसेटिंग उद्योगको केवल डमी पाठ हो। लोरेम इप्सम 1500 को दशकदेखि उद्योगको मानक डमी पाठ भएको छ, जब एक अज्ञात प्रिन्टरले टाइपको ग्याली लियो र यसलाई टाइप नमूना पुस्तक बनाउन स्क्याम्बल गर्‍यो। यो पाँच शताब्दी मात्र होइन, तर इलेक्ट्रोनिक टाइपसेटिङमा छलांग पनि बाँचेको छ, अनिवार्य रूपमा अपरिवर्तित बाँकी छ। यो 1960s मा Lorem Ipsum खण्डहरू सहित पानाहरू, र हालैमा Lorem Ipsum को संस्करणहरू सहित Aldus PageMaker जस्ता डेस्कटप प्रकाशन सफ्टवेयरको साथमा लोकप्रिय भएको थियो।",
+      "category": 3,
       "author": 1,
       "image1": "articles/article2.jpg",
       "is_featured": true,
