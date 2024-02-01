@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     "drf_spectacular",
 ]
 
+# Defining the Custom User Model
+AUTH_USER_MODEL = "authentication_app.CustomUserModel"
+
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
 MIDDLEWARE = [

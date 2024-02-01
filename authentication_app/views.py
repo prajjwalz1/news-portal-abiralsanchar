@@ -71,3 +71,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             )
 
         return response
+
+
+# Developers creates the Superadmin user
+# Then,Superadmin user creates staff users
+# staff users can create other sub_staff users who can handle CRUD but only the staff users can create other sub_staffs i.e. sub_staffs wont be given access to Users models at all.

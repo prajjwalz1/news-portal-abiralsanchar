@@ -1,6 +1,6 @@
 [
   {
-    "model": "auth.user",
+    "model": "authentication_app.CustomUserModel",
     "pk": 1,
     "fields": {
       "username": "testUser",

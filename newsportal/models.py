@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from newsportal.helpers import custom_slugify
 from django.contrib.auth.models import User
+from authentication_app.models import CustomUserModel
 
 
 class Category_Model(models.Model):
@@ -29,7 +30,7 @@ class Article_Model(models.Model):
     content = models.TextField()
     description = models.TextField()
     category = models.ForeignKey(Category_Model, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image1 = models.ImageField(upload_to="articles/")
