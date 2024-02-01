@@ -6,9 +6,11 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 from django.conf import settings
+from core.views import homepage
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
+    path("", homepage),
     path("", include("authentication_app.urls")),
     path("", include("newsportal.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
