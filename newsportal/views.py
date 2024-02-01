@@ -44,108 +44,137 @@ class Homepage_View(APIView):
         """
         Get Latest Category to Showcase on NAVBAR i.e. is_on_navbar =True (Limit)
         """
-        # Fetching Specific Values for Better Optimization and Query Speed
-        navbar_category = (
-            Category_Model.objects.filter(is_on_navbar=True)
-            .values("title", "slug")
-            .order_by("-created_at")[:5]
-        )
-        serializer = Category_On_Navbar_Serializer(navbar_category, many=True)
-        data = {
-            "navbar_category_totalHits": len(serializer.data),
-            "navbar_category": serializer.data,
-        }
-        return data
+        try:
+            # Fetching Specific Values for Better Optimization and Query Speed
+            navbar_category = (
+                Category_Model.objects.filter(is_on_navbar=True)
+                .values("title", "slug")
+                .order_by("-created_at")[:5]
+            )
+            serializer = Category_On_Navbar_Serializer(navbar_category, many=True)
+            data = {
+                "navbar_category_totalHits": len(serializer.data),
+                "navbar_category": serializer.data,
+            }
+            return data
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def featured_articles(self, request):
         """
         Get Latest FEATURED Articles with Its Respective Category Data (Limit)
         """
-        featured_article = (
-            Article_Model.objects.filter(is_featured=True)
-            .order_by("-created_at")
-            .select_related("category", "author")[:5]
-        )
-        serializer = Article_Serializer(featured_article, many=True)
-        data = {
-            "featured_articles_totalHits": len(serializer.data),
-            "featured_articles": serializer.data,
-        }
-        return data
+        try:
+            featured_article = (
+                Article_Model.objects.filter(is_featured=True)
+                .order_by("-created_at")
+                .select_related("category", "author")[:5]
+            )
+            serializer = Article_Serializer(featured_article, many=True)
+            data = {
+                "featured_articles_totalHits": len(serializer.data),
+                "featured_articles": serializer.data,
+            }
+            return data
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def trending_articles(self, request):
         """
         Get TRENDING Articles that are Not Featured with Its Respective Category and Author Data (Limit)
         """
-        trending_article = (
-            Article_Model.objects.order_by("-created_at")
-            .filter(is_trending=True)
-            .exclude(is_featured=True)
-            .select_related("category", "author")[:5]
-        )
-        serializer = Article_Serializer(trending_article, many=True)
-        data = {
-            "trending_articles_totalHits": len(serializer.data),
-            "trending_articles": serializer.data,
-        }
-        return data
+        try:
+            trending_article = (
+                Article_Model.objects.order_by("-created_at")
+                .filter(is_trending=True)
+                .exclude(is_featured=True)
+                .select_related("category", "author")[:5]
+            )
+            serializer = Article_Serializer(trending_article, many=True)
+            data = {
+                "trending_articles_totalHits": len(serializer.data),
+                "trending_articles": serializer.data,
+            }
+            return data
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def latest_articles(self, request):
         """
         Get LATEST Articles that are Not Featured with Its Respective Category and Author Data (Limit)
         """
-        latest_article = (
-            Article_Model.objects.order_by("-created_at")
-            .exclude(is_featured=True)
-            .select_related("category", "author")[:5]
-        )
-        serializer = Article_Serializer(latest_article, many=True)
-        data = {
-            "latest_articles_totalHits": len(serializer.data),
-            "latest_articles": serializer.data,
-        }
-        return data
+        try:
+            latest_article = (
+                Article_Model.objects.order_by("-created_at")
+                .exclude(is_featured=True)
+                .select_related("category", "author")[:5]
+            )
+            serializer = Article_Serializer(latest_article, many=True)
+            data = {
+                "latest_articles_totalHits": len(serializer.data),
+                "latest_articles": serializer.data,
+            }
+            return data
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def articles_categorized(self, request):
         """
         5 Articles of Each Category that has Value Category.is_on_home = True
         """
+        try:
+            # Fetching 5 category that have is_on_home = True
+            categories = Category_Model.objects.filter(is_on_home=True).order_by(
+                "-created_at"
+            )[:5]
 
-        # Fetching 5 category that have is_on_home = True
-        categories = Category_Model.objects.filter(is_on_home=True).order_by(
-            "-created_at"
-        )[:5]
+            # This LIST stores 5 category and 5 respective articles per category
+            category_article_list = []
 
-        # This LIST stores 5 category and 5 respective articles per category
-        category_article_list = []
+            for category in categories:
+                # Get 5 Articles of Category 'X'
+                articles = Article_Model.objects.filter(category=category)[:5]
 
-        for category in categories:
-            # Get 5 Articles of Category 'X'
-            articles = Article_Model.objects.filter(category=category)[:5]
+                # Serializing 5 article model instances  | '.data' = serializer.data
+                serialized_articles = Article_Serializer(articles, many=True).data
 
-            # Serializing 5 article model instances  | '.data' = serializer.data
-            serialized_articles = Article_Serializer(articles, many=True).data
+                # Now we bundle up Category 'X' with 5 respective articles and append to List
+                category_data = {
+                    "category_title": category.title,  # Can also send category PK i.e. 'id'
+                    "articles": serialized_articles,
+                }
+                category_article_list.append(category_data)
 
-            # Now we bundle up Category 'X' with 5 respective articles and append to List
-            category_data = {
-                "category_title": category.title,  # Can also send category PK i.e. 'id'
-                "articles": serialized_articles,
+            context = {
+                "category_article_data": category_article_list,
             }
-            category_article_list.append(category_data)
 
-        context = {
-            "category_article_data": category_article_list,
-        }
+            # Serialize the context
+            serializer = Combined_Category_Article_Serializer(data=context)
+            serializer.is_valid()
 
-        # Serialize the context
-        serializer = Combined_Category_Article_Serializer(data=context)
-        serializer.is_valid()
-
-        data = {
-            "articles_categorized_totalHits": len(serializer.data),
-            "articles_categorized": serializer.data,
-        }
-        return data
+            data = {
+                "articles_categorized_totalHits": len(serializer.data),
+                "articles_categorized": serializer.data,
+            }
+            return data
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class Individual_Category_Article_View(APIView):
@@ -192,22 +221,30 @@ class Article_View(APIView):
 
     def get(self, request, pk=None, format=None):
         if pk is None:
-            # Its a GET ALL Request so, Fetching all Articles
-            all_article_query = Article_Model.objects.get_queryset().order_by(
-                "-created_at"
-            )
+            try:
+                # Its a GET ALL Request so, Fetching all Articles
+                all_article_query = Article_Model.objects.get_queryset().order_by(
+                    "-created_at"
+                )
 
-            paginator = self.pagination_class()
-            paginated_articles = paginator.paginate_queryset(all_article_query, request)
-            serializer = Article_Serializer(paginated_articles, many=True)
-            return Response(
-                {
-                    "success": True,
-                    "totalHits": len(serializer.data),
-                    "data": serializer.data,
-                },
-                status=status.HTTP_200_OK,
-            )
+                paginator = self.pagination_class()
+                paginated_articles = paginator.paginate_queryset(
+                    all_article_query, request
+                )
+                serializer = Article_Serializer(paginated_articles, many=True)
+                return Response(
+                    {
+                        "success": True,
+                        "totalHits": len(serializer.data),
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            except Exception as e:
+                return Response(
+                    {"success": False, "error": f"{str(e)}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         else:
             # Its a Single Article Get Request so , Fetching a single category by PK
             try:
@@ -296,24 +333,30 @@ class Category_View(APIView):
 
     def get(self, request, pk=None, format=None):
         if pk is None:
-            # Its a GET ALL Request so, Fetching all categories
-            all_category_query = Category_Model.objects.get_queryset().order_by(
-                "-created_at"
-            )
-            paginator = self.pagination_class()
-            paginated_category = paginator.paginate_queryset(
-                all_category_query, request
-            )
-            serializer = Category_Serializer(paginated_category, many=True)
+            try:
+                # Its a GET ALL Request so, Fetching all categories
+                all_category_query = Category_Model.objects.get_queryset().order_by(
+                    "-created_at"
+                )
+                paginator = self.pagination_class()
+                paginated_category = paginator.paginate_queryset(
+                    all_category_query, request
+                )
+                serializer = Category_Serializer(paginated_category, many=True)
 
-            return Response(
-                {
-                    "success": True,
-                    "totalHits": len(serializer.data),
-                    "data": serializer.data,
-                },
-                status=status.HTTP_200_OK,
-            )
+                return Response(
+                    {
+                        "success": True,
+                        "totalHits": len(serializer.data),
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            except Exception as e:
+                return Response(
+                    {"success": False, "error": f"{str(e)}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         else:
             # Its a Single Category Get Request so , Fetching a single category by PK
             try:
