@@ -4,3 +4,4 @@ from django.db import models
 
 class CustomUserModel(AbstractUser):
     profile_image = models.ImageField(upload_to="user_profile/", blank=True, null=True)
+    phone_number = models.CharField(max_length=10)

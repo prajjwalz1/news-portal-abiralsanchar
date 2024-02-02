@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from authentication_app.decoraters import access_token_required
+from django.contrib.auth.password_validation import validate_password
+from authentication_app.serializers import SignupSerializer
+from authentication_app.models import CustomUserModel
 
 
 # Protected View Testing using Custom Mixins and Decorater
@@ -73,6 +76,66 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         return response
 
 
-# Developers creates the Superadmin user
-# Then,Superadmin user creates staff users
-# staff users can create other sub_staff users who can handle CRUD but only the staff users can create other sub_staffs i.e. sub_staffs wont be given access to Users models at all.
+# Only Admin or Staff user can create new Users
+class SignupView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = SignupSerializer(data=request.data)
+
+        if serializer.is_valid():
+            try:
+                validate_password(serializer.validated_data["password"])
+            except Exception as e:
+                return Response(
+                    {"success": False, "error": str(e)},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            try:
+                user_create = CustomUserModel.objects.create_user(
+                    username=serializer.validated_data["username"],
+                    first_name=serializer.validated_data["first_name"],
+                    last_name=serializer.validated_data["last_name"],
+                    email=serializer.validated_data["email"],
+                    phone_number=serializer.validated_data["phone_number"],
+                    password=serializer.validated_data["password"],
+                )
+
+                # Only validate the Profile_Image after other details are validated else,even if the user credentials are invalid, image will be saved on Server.
+                if user_create:
+                    profile_image = serializer.validated_data["profile_image"]
+                    user_create.profile_image = profile_image
+                    user_create.save()
+                    return Response(
+                        {
+                            "success": True,
+                            "message": "Staff Account Created Successfully",
+                        },
+                        status=status.HTTP_201_CREATED,
+                    )
+
+            except Exception as e:
+                if (
+                    "UNIQUE constraint failed: authentication_app_customusermodel.username"
+                    in str(e)
+                ):
+                    return Response(
+                        {"success": False, "error": "Username already taken"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+                else:
+                    return Response(
+                        {
+                            "success": False,
+                            "error": "An error occurred while creating the user",
+                            "error_detail": str(e),
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+        return Response(
+            {"success": False, "error": serializer.errors},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+# Decorator so only isStaff /superAdmin
