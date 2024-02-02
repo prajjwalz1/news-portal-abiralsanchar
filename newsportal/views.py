@@ -4,10 +4,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
+from authentication_app.decoraters import access_token_required
 
 
 class Homepage_View(APIView):
-
     """
     Navbar Category - ID, Name, Slug
     Featured Articles
@@ -267,6 +267,7 @@ class Article_View(APIView):
     This Function Updates Article Model Object using PATCH
     """
 
+    @access_token_required
     def patch(self, request, pk, format=None):
         try:
             article = Article_Model.objects.get(pk=pk)
@@ -295,6 +296,7 @@ class Article_View(APIView):
     This Function DELETE Article Model Object using PK
     """
 
+    @access_token_required
     def delete(self, request, pk, format=None):
         try:
             article = Article_Model.objects.get(pk=pk)
@@ -313,6 +315,7 @@ class Article_View(APIView):
     Create new Article
     """
 
+    @access_token_required
     def post(self, request):
         serializer = Article_Serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -323,7 +326,6 @@ class Article_View(APIView):
 
 
 class Category_View(APIView):
-
     """
     Get ALL Category using : '/category/?page=1' OR Get Single Category using : 'category/1/'
     """
@@ -379,6 +381,7 @@ class Category_View(APIView):
     This Function Updates Category Model Object using PATCH
     """
 
+    @access_token_required
     def patch(self, request, pk, format=None):
         try:
             category = Category_Model.objects.get(pk=pk)
@@ -407,6 +410,7 @@ class Category_View(APIView):
     This Function DELETE Category Model Object using PK
     """
 
+    @access_token_required
     def delete(self, request, pk, format=None):
         try:
             category = Category_Model.objects.get(pk=pk)
@@ -425,6 +429,7 @@ class Category_View(APIView):
     Create new Category for Article
     """
 
+    @access_token_required
     def post(self, request):
         serializer = Category_Serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

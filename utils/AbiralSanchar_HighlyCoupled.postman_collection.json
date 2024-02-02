@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "56f0b2c6-54fa-47d1-a9fa-45fdfe54edb3",
+		"_postman_id": "6e357e6c-16b2-44c8-b5a9-027fd5d90bb9",
 		"name": "AbiralSanchar_HighlyCoupled",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27607004"
+		"_exporter_id": "31909025"
 	},
 	"item": [
 		{
@@ -471,6 +471,70 @@
 							"path": [
 								"api",
 								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp (Create Sub Staffs)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "userthss",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "amits",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "kc",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "ab@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "profile_image",
+									"type": "file",
+									"src": "/home/mraalu/Pictures/Test.png"
+								},
+								{
+									"key": "phone_number",
+									"value": "9847612345",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Amit123!",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/signup/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"signup",
 								""
 							]
 						}
