@@ -8,7 +8,8 @@ AbiralSanchar is a NewsPortal Web Application .
 'access_token_required' validates if the user is logged in or not with valid JWT
 'staff_admin_required' validates if the requesting user is Staff/SuperUser or not , if its normal user then, ACCESS DENIED!
 3. Only Staff/SuperUser can use SignUp view to create new Users ()
-4. Only logged-in user who has valid token can do CRUD operations on model.
+4. Only logged-in user who has valid token can do CRUD operations on model 
+*Note : Only Staff/Superuser can Create new Users*
 
 ## Prerequisites
 
