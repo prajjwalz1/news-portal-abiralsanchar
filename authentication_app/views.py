@@ -1,9 +1,8 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from authentication_app.decoraters import access_token_required
+from authentication_app.decoraters import access_token_required, staff_admin_required
 from django.contrib.auth.password_validation import validate_password
 from authentication_app.serializers import SignupSerializer
 from authentication_app.models import CustomUserModel
@@ -76,9 +75,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         return response
 
 
-# Only Admin or Staff user can create new Users
 class SignupView(APIView):
-    def post(self, request, *args, **kwargs):
+    @staff_admin_required
+    def post(self, request):
         serializer = SignupSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -136,6 +135,3 @@ class SignupView(APIView):
             {"success": False, "error": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
-
-
-# Decorator so only isStaff /superAdmin
