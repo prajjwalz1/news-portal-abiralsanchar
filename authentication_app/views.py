@@ -6,6 +6,8 @@ from authentication_app.decoraters import access_token_required, staff_admin_req
 from django.contrib.auth.password_validation import validate_password
 from authentication_app.serializers import SignupSerializer
 from authentication_app.models import CustomUserModel
+import jwt
+from django.conf import settings
 
 
 # Protected View Testing using Custom Mixins and Decorater
@@ -61,6 +63,28 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         if "access" and "refresh" in response.data:
             access_token = response.data["access"]
             refresh_token = response.data["refresh"]
+            try:
+                decoded_access_token = jwt.decode(
+                    access_token,
+                    settings.SIMPLE_JWT_SECRET_KEY,
+                    algorithms=[settings.SIMPLE_JWT_ALGORITHM],
+                )
+                user_id = decoded_access_token["user_id"]
+                user_object = CustomUserModel.objects.get(pk=user_id)
+
+                # If the user is superuser then Add that detail in Resposne
+                if user_object.is_superuser:
+                    response.data["is_superuser"] = True
+
+                # If the user is staff then Add that detail in Resposne
+                elif user_object.is_staff:
+                    response.data["is_staff"] = True
+
+            except Exception as e:
+                return Response(
+                    {"success": False, "error": f"Login Failed! {str(e)}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
             # Set the access token in a cookie
             response.set_cookie(
