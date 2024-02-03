@@ -85,9 +85,6 @@ def staff_admin_required(view_func):
                     {"success": False, "error": "Invalid access token."},
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
-            # response = AccessTokenMixin.check_access_token(self, request)
-            # if response:
-            #     return response
             return view_func(self, request, *args, **kwargs)
 
     return wrapper
