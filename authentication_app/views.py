@@ -60,7 +60,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         response = super().post(request, *args, **kwargs)
 
         # Customize the response to set tokens in cookies
-        if "access" and "refresh" in response.data:
+        if "access" in response.data and "refresh" in response.data:
             access_token = response.data["access"]
             refresh_token = response.data["refresh"]
             try:
@@ -71,6 +71,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 )
                 user_id = decoded_access_token["user_id"]
                 user_object = CustomUserModel.objects.get(pk=user_id)
+
+                # Remove acccess/refresh tokenfrom the Default Response
+                response.data = {}
 
                 # If the user is superuser then Add that detail in Resposne
                 if user_object.is_superuser:
@@ -95,6 +98,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             response.set_cookie(
                 "refresh_token", refresh_token, httponly=True, secure=True
             )
+
+            response.data["success"] = True
+            response.data["message"] = "Login Successful"
 
         return response
 

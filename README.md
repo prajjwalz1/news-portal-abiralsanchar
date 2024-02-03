@@ -5,11 +5,14 @@ AbiralSanchar is a NewsPortal Web Application .
 ## Authentication Documentation 
 1. We use CustomMiddleware 'JWTMiddleware' to Refresh the Access Token and Set the new Access Token in Cookie, We dont do anything on middleware if the user is Guest i.e. no access/refresh token is in request body
 2. We have 2 Decorators :
-'access_token_required' validates if the user is logged in or not with valid JWT
-'staff_admin_required' validates if the requesting user is Staff/SuperUser or not , if its normal user then, ACCESS DENIED!
+- '@access_token_required' validates if the user is logged in or not with valid JWT
+- '@staff_admin_required' validates if the requesting user is Staff/SuperUser or not , if its normal user then, ACCESS DENIED!
 3. Only Staff/SuperUser can use SignUp view to create new Users ()
 4. Only logged-in user who has valid token can do CRUD operations on model 
 *Note : Only Staff/Superuser can Create new Users*
+5. When user Logins to System , 
+- If its a Staff || Superuser then, `is_staff:True OR is_superuser:True` is added in Login Response
+- If its a Normal User then, Normal Response is passed i.e. 'Login Success' 
 
 ## Prerequisites
 
