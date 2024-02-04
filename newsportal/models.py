@@ -1,8 +1,9 @@
 from django.db import models
-from django.utils.text import slugify
 from newsportal.helpers import custom_slugify
-from django.contrib.auth.models import User
 from authentication_app.models import CustomUserModel
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+import os
 
 
 class Category_Model(models.Model):
@@ -46,3 +47,22 @@ class Article_Model(models.Model):
 
     def __str__(self):
         return self.title
+
+
+@receiver(post_delete, sender=Article_Model)
+def delete_article_images(sender, instance, **kwargs):
+    # Delete the article images after the article obj is completly deleted
+
+    if instance.image1:
+        delete_file(instance.image1.path)
+
+    if instance.image2:
+        delete_file(instance.image2.path)
+
+
+def delete_file(filepath):
+    """
+    This Function deletes the image
+    """
+    if os.path.isfile(filepath):
+        os.remove(filepath)
