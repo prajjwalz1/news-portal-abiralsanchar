@@ -9,9 +9,17 @@ class AccessTokenMixin:
     def check_access_token(self, request):
         refresh_token = request.COOKIES.get("refresh_token")
         access_token = request.COOKIES.get("access_token")
+        user_token = request.COOKIES.get("user_token")
+
+        # User Token is Required to Create,Update articles
+        if not user_token:
+            return Response(
+                {"success:": False, "error": "ACCESS DENIED! User Token is Required"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
         # If either of access/refresh token are not present then its a Guest User so, clear the cookie and Response with 'ACCESS DENIED'
-        if access_token == None or refresh_token == None:
+        if not access_token or not refresh_token:
             response = Response(
                 {"success:": False, "error": "ACCESS DENIED! User not Logged-In"},
                 status=status.HTTP_401_UNAUTHORIZED,
