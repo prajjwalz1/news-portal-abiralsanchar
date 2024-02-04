@@ -34,11 +34,16 @@ class JWTMiddleware:
 
         if user_token:
             try:
-                jwt.decode(
+                user_token_payload = jwt.decode(
                     user_token,
                     settings.SIMPLE_JWT_SECRET_KEY,
                     algorithms=[settings.SIMPLE_JWT_ALGORITHM],
                 )
+
+                # user_token is valid, now pass the payload data to request, if the request passes the decorator then in view we extract the user_id from payload and use that for creating article i.e. article.Author = user_id
+                request.user_token_payload = user_token_payload
+                response = self.get_response(request)
+                return response
             except Exception as e:
                 # user_token is Invalid! End the Session
                 request.isSessionExpired = True
