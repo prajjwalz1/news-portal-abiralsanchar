@@ -30,7 +30,7 @@ class LogoutView(APIView):
         # Fetchign the refresh_token from COOKIE
         refresh_token = request.COOKIES.get("refresh_token")
 
-        if refresh_token == None:
+        if not refresh_token:
             return Response(
                 {"success:": False, "error": "User not Logged In!"},
                 status=status.HTTP_401_UNAUTHORIZED,
@@ -41,6 +41,7 @@ class LogoutView(APIView):
             response = Response({"success": True, "message": "Logout Success"})
             response.delete_cookie("access_token")
             response.delete_cookie("refresh_token")
+            response.delete_cookie("user_token")
             return response
 
         except Exception as e:
@@ -74,14 +75,31 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
                 # Remove acccess/refresh tokenfrom the Default Response
                 response.data = {}
-
+                user_role = "normal"
                 # If the user is superuser then Add that detail in Resposne
                 if user_object.is_superuser:
                     response.data["is_superuser"] = True
+                    user_role = "superuser"
 
                 # If the user is staff then Add that detail in Resposne
                 elif user_object.is_staff:
                     response.data["is_staff"] = True
+                    user_role = "staff"
+
+                # User Cookie JWT
+                user_token = jwt.encode(
+                    {
+                        "user_id": user_id,
+                        "first_name": user_object.first_name,
+                        "last_name": user_object.last_name,
+                        "user_role": user_role,
+                    },
+                    settings.SIMPLE_JWT_SECRET_KEY,
+                    algorithm=settings.SIMPLE_JWT_ALGORITHM,
+                )
+                response.set_cookie(
+                    "user_token", user_token, httponly=False, secure=True
+                )
 
             except Exception as e:
                 return Response(
@@ -120,20 +138,20 @@ class SignupView(APIView):
                 )
 
             try:
-                user_create = CustomUserModel.objects.create_user(
-                    username=serializer.validated_data["username"],
-                    first_name=serializer.validated_data["first_name"],
-                    last_name=serializer.validated_data["last_name"],
-                    email=serializer.validated_data["email"],
-                    phone_number=serializer.validated_data["phone_number"],
-                    password=serializer.validated_data["password"],
-                )
+                profile_image = serializer.validated_data["profile_image"]
 
-                # Only validate the Profile_Image after other details are validated else,even if the user credentials are invalid, image will be saved on Server.
-                if user_create:
-                    profile_image = serializer.validated_data["profile_image"]
-                    user_create.profile_image = profile_image
-                    user_create.save()
+                if profile_image:
+                    # Only after Profile Image is present create the Model
+                    CustomUserModel.objects.create_user(
+                        username=serializer.validated_data["username"],
+                        first_name=serializer.validated_data["first_name"],
+                        last_name=serializer.validated_data["last_name"],
+                        email=serializer.validated_data["email"],
+                        phone_number=serializer.validated_data["phone_number"],
+                        password=serializer.validated_data["password"],
+                        profile_image=profile_image,
+                    )
+
                     return Response(
                         {
                             "success": True,
@@ -149,6 +167,11 @@ class SignupView(APIView):
                 ):
                     return Response(
                         {"success": False, "error": "Username already taken"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+                elif "profile_image" in str(e):
+                    return Response(
+                        {"success": False, "error": "Profile Image is required."},
                         status=status.HTTP_400_BAD_REQUEST,
                     )
                 else:
