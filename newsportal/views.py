@@ -317,11 +317,14 @@ class Article_View(APIView):
 
     @access_token_required
     def post(self, request):
+        user_token_payload = getattr(request, "user_token_payload", False)
+        user_id = user_token_payload["user_id"]
+        request.data["author"] = user_id
         serializer = Article_Serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(
-            {"success": True, "data": serializer.data}, status=status.HTTP_200_OK
+            {"success": True, "data": serializer.data}, status=status.HTTP_201_CREATED
         )
 
 
@@ -435,5 +438,5 @@ class Category_View(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(
-            {"success": True, "data": serializer.data}, status=status.HTTP_200_OK
+            {"success": True, "data": serializer.data}, status=status.HTTP_201_CREATED
         )

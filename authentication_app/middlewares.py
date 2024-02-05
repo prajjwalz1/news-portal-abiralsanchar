@@ -30,6 +30,25 @@ class JWTMiddleware:
     def __call__(self, request):
         refresh_token = request.COOKIES.get("refresh_token")
         access_token = request.COOKIES.get("access_token")
+        user_token = request.COOKIES.get("user_token")
+
+        if user_token:
+            try:
+                user_token_payload = jwt.decode(
+                    user_token,
+                    settings.SIMPLE_JWT_SECRET_KEY,
+                    algorithms=[settings.SIMPLE_JWT_ALGORITHM],
+                )
+
+                # user_token is valid, now pass the payload data to request, if the request passes the decorator then in view we extract the user_id from payload and use that for creating article i.e. article.Author = user_id
+                request.user_token_payload = user_token_payload
+                response = self.get_response(request)
+                return response
+            except Exception as e:
+                # user_token is Invalid! End the Session
+                request.isSessionExpired = True
+                response = self.get_response(request)
+                return response
 
         if access_token and refresh_token:
             # First we try to check if REFRESH TOKEN is valid or not,if its INVALID then EXPIRE the SESSION

@@ -21,6 +21,7 @@ def access_token_required(view_func):
             )
             response.delete_cookie("access_token")
             response.delete_cookie("refresh_token")
+            response.delete_cookie("user_token")
             return response
         else:
             """
@@ -49,6 +50,7 @@ def staff_admin_required(view_func):
             )
             response.delete_cookie("access_token")
             response.delete_cookie("refresh_token")
+            response.delete_cookie("user_token")
             return response
         else:
             access_token = request.COOKIES.get("access_token")
