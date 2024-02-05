@@ -11,6 +11,7 @@ AbiralSanchar is a NewsPortal Web Application .
 4. Only logged-in user who has valid token can do CRUD operations on model 
 *Note : Only Staff/Superuser can Create new Users*
 5. When user Logins to System , 
+- `user_token` cookie is created that stores JWT token with payload : user_id,first_name,last_name,user_role,etc.
 - If its a Staff || Superuser then, `is_staff:True OR is_superuser:True` is added in Login Response
 - If its a Normal User then, Normal Response is passed i.e. 'Login Success' 
 
