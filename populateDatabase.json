@@ -5,7 +5,8 @@
     "fields": {
       "username": "testUser",
       "password": "testUser",
-      "email": "test@test.com"
+      "email": "test@test.com",
+      "phone_number": 9847612345
     }
   },
   {

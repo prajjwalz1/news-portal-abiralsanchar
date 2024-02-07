@@ -4,7 +4,10 @@ from rest_framework.views import APIView
 from rest_framework import status
 from authentication_app.decoraters import access_token_required, staff_admin_required
 from django.contrib.auth.password_validation import validate_password
-from authentication_app.serializers import SignupSerializer
+from authentication_app.serializers import (
+    SignupSerializer,
+    CustomUserSerializer,
+)
 from authentication_app.models import CustomUserModel
 import jwt
 from django.conf import settings
@@ -188,3 +191,65 @@ class SignupView(APIView):
             {"success": False, "error": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+class UserView(APIView):
+    """
+    This Function fetches the user object model
+    """
+
+    def get_user(self, request):
+        try:
+            # Fetching the user_payload from middleware directly
+            user_token_payload = getattr(request, "user_token_payload", False)
+            user_id = user_token_payload["user_id"]
+            return CustomUserModel.objects.get(pk=user_id)
+        except Exception as e:
+            if "CustomUserModel matching query does not exist." in str(e):
+                return Response(
+                    {"success": False, "error": "user doesn't exists"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                return Response(
+                    {"success": False, "error": str(e)},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+    @access_token_required
+    def get(self, request, format=None):
+        user = self.get_user(request)
+        serializer = CustomUserSerializer(user)
+        return Response(
+            {"success": True, "message": serializer.data}, status=status.HTTP_200_OK
+        )
+
+    @access_token_required
+    def patch(self, request, format=None):
+        password = request.data.get("password", None)
+        id = request.data.get("id", None)
+
+        # we wont allow the user to update password/id from this Patch method.
+        # For updating password we have seperate API
+        if password or id:
+            return Response(
+                {
+                    "success": False,
+                    "error": "REQUEST DENIED!",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        user = self.get_user(request)
+        serializer = CustomUserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"success": True, "message": serializer.data},
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {"success": False, "error": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
