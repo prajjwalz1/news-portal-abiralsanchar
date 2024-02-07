@@ -389,12 +389,12 @@
 							"formdata": [
 								{
 									"key": "username",
-									"value": "userone",
+									"value": "admin",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "Amit123!",
+									"value": "admin",
 									"type": "text"
 								}
 							]
@@ -487,7 +487,7 @@
 							"formdata": [
 								{
 									"key": "username",
-									"value": "userone",
+									"value": "abcasdasdsa",
 									"type": "text"
 								},
 								{
@@ -621,6 +621,32 @@
 					"path": [
 						"api",
 						"data",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Navbar ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/news/navbar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"navbar",
 						""
 					]
 				}
