@@ -9,6 +9,7 @@ from authentication_app.views import (
     LogoutView,
     SignupView,
     UserView,
+    PasswordChangeView,
 )
 
 urlpatterns = [
@@ -17,5 +18,6 @@ urlpatterns = [
     path("api/logout/", LogoutView.as_view()),
     path("api/signup/", SignupView.as_view()),
     path("api/user/", UserView.as_view()),
+    path("api/user/change-password/", PasswordChangeView.as_view()),
     path("api/data/", FetchData.as_view()),
 ]

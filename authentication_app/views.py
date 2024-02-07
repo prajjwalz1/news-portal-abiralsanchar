@@ -7,6 +7,7 @@ from django.contrib.auth.password_validation import validate_password
 from authentication_app.serializers import (
     SignupSerializer,
     CustomUserSerializer,
+    PasswordChangeSerializer,
 )
 from authentication_app.models import CustomUserModel
 import jwt
@@ -246,6 +247,25 @@ class UserView(APIView):
             serializer.save()
             return Response(
                 {"success": True, "message": serializer.data},
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {"success": False, "error": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class PasswordChangeView(UserView, APIView):
+
+    @access_token_required
+    def patch(self, request, format=None):
+        user = self.get_user(request)
+        serializer = PasswordChangeSerializer(data=request.data, context={"user": user})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"success": True, "message": "Password changed successfully"},
                 status=status.HTTP_200_OK,
             )
         else:

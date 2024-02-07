@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from authentication_app.models import CustomUserModel
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 
 class SignupSerializer(serializers.Serializer):
@@ -41,3 +43,28 @@ class CustomUserSerializer(serializers.ModelSerializer):
         if len(phone_number_str) != 10:
             raise serializers.ValidationError("Phone number must be 10 digits long.")
         return value
+
+
+class PasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_old_password(self, value):
+        user = self.context["user"]
+        if not check_password(value, user.password):
+            raise serializers.ValidationError("Incorrect old password")
+        return value
+
+    def validate_new_password(self, value):
+        try:
+            validate_password(value)
+        except ValidationError as e:
+            raise serializers.ValidationError(str(e))
+        return value
+
+    def save(self, **kwargs):
+        user = self.context["user"]
+        new_password = self.validated_data["new_password"]
+        user.set_password(new_password)
+        user.save()
+        return user
