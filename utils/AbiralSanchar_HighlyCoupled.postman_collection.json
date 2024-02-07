@@ -389,12 +389,12 @@
 							"formdata": [
 								{
 									"key": "username",
-									"value": "admin",
+									"value": "hello",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "admin",
+									"value": "Admin@123",
 									"type": "text"
 								}
 							]
@@ -487,7 +487,7 @@
 							"formdata": [
 								{
 									"key": "username",
-									"value": "abcasdasdsa",
+									"value": "hello",
 									"type": "text"
 								},
 								{
@@ -535,6 +535,137 @@
 							"path": [
 								"api",
 								"signup",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch USER Details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/user/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update USER Details",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "userone",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "phone_number",
+									"value": "9847677465",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "potato",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "sasas",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "amit@com.com",
+									"type": "text"
+								},
+								{
+									"key": "profile_image",
+									"type": "file",
+									"src": "/D:/Extras/VSM Book.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/user/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "old_password",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "new_password",
+									"value": "Admin@123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/user/change-password/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"change-password",
 								""
 							]
 						}
