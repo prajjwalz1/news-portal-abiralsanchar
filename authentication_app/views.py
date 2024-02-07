@@ -128,6 +128,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class SignupView(APIView):
+    """
+    Only Superuser or Staff user can use this VIEW.
+    """
+
     @staff_admin_required
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
@@ -217,6 +221,7 @@ class UserView(APIView):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
+    # This View Fetches the User Data
     @access_token_required
     def get(self, request, format=None):
         user = self.get_user(request)
@@ -225,6 +230,7 @@ class UserView(APIView):
             {"success": True, "message": serializer.data}, status=status.HTTP_200_OK
         )
 
+    # This function updates the user profile
     @access_token_required
     def patch(self, request, format=None):
         password = request.data.get("password", None)
@@ -257,6 +263,14 @@ class UserView(APIView):
 
 
 class PasswordChangeView(UserView, APIView):
+    """
+    API to update the user password.
+    request body :
+    {
+    "old_password":"...",
+    "new_password":"..."
+    }
+    """
 
     @access_token_required
     def patch(self, request, format=None):
