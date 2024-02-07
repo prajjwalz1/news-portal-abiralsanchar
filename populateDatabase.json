@@ -13,7 +13,7 @@
     "pk": 1,
     "fields": {
       "title": "Agricultures",
-      "slug": "Agricultures",
+      "slug": "agricultures",
       "description": "Description for Category 1",
       "is_on_navbar": false,
       "is_on_home": true,
@@ -26,7 +26,7 @@
     "pk": 2,
     "fields": {
       "title": "Economics",
-      "slug": "Economics",
+      "slug": "economics",
       "description": "Description for Category 2",
       "is_on_navbar": false,
       "is_on_home": true,
@@ -39,7 +39,7 @@
     "pk": 3,
     "fields": {
       "title": "Politics",
-      "slug": "Politics",
+      "slug": "politics",
       "description": "Description for Category 3",
       "is_on_navbar": true,
       "is_on_home": true,
@@ -52,7 +52,7 @@
     "pk": 4,
     "fields": {
       "title": "Business",
-      "slug": "Business",
+      "slug": "business",
       "description": "Description for Category 4",
       "is_on_navbar": true,
       "is_on_home": false,
@@ -65,7 +65,7 @@
     "pk": 5,
     "fields": {
       "title": "Agro",
-      "slug": "Agro",
+      "slug": "agro",
       "description": "Description for Category 5",
       "is_on_navbar": true,
       "is_on_home": false,
@@ -78,7 +78,7 @@
     "pk": 6,
     "fields": {
       "title": "Farm",
-      "slug": "Farm",
+      "slug": "farm",
       "description": "Description for Category 6",
       "is_on_navbar": true,
       "is_on_home": true,
@@ -91,7 +91,7 @@
     "pk": 7,
     "fields": {
       "title": "Health",
-      "slug": "Health",
+      "slug": "health",
       "description": "Description for Category 7",
       "is_on_navbar": false,
       "is_on_home": true,
@@ -104,7 +104,7 @@
     "pk": 8,
     "fields": {
       "title": "Population",
-      "slug": "Population",
+      "slug": "population",
       "description": "Description for Category 8",
       "is_on_navbar": true,
       "is_on_home": false,

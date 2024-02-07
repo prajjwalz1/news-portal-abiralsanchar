@@ -8,6 +8,7 @@ urlpatterns = [
     path("api/v1/news/category/", Category_View.as_view()),
     path("api/v1/news/category/<int:pk>/", Category_View.as_view()),
     path("api/v1/news/homepage/", Homepage_View.as_view()),
+    path("api/v1/news/navbar/", Navbar_View.as_view()),
     path(
         "api/v1/news/category/<str:category_slug>/",
         Individual_Category_Article_View.as_view(),

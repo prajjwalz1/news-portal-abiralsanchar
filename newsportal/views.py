@@ -7,13 +7,12 @@ from rest_framework.pagination import PageNumberPagination
 from authentication_app.decoraters import access_token_required
 
 
-class Homepage_View(APIView):
+class Navbar_View(APIView):
     """
     Navbar Category - ID, Name, Slug
     Featured Articles
     Trending Articles
     Latest Articles
-    Categorized Articles i.e. 5 Articles per Category
     """
 
     def get(self, request):
@@ -21,16 +20,14 @@ class Homepage_View(APIView):
         result = []
 
         navbar_category = self.navbar_category(request)
-        featured_articles = self.featured_articles(request)
         trending_articles = self.trending_articles(request)
         latest_articles = self.latest_articles(request)
-        articles_categorized = self.articles_categorized(request)
+        featured_articles = self.featured_articles(request)
 
         result.append(navbar_category)
-        result.append(featured_articles)
         result.append(trending_articles)
         result.append(latest_articles)
-        result.append(articles_categorized)
+        result.append(featured_articles)
 
         return Response(
             {
@@ -55,28 +52,6 @@ class Homepage_View(APIView):
             data = {
                 "navbar_category_totalHits": len(serializer.data),
                 "navbar_category": serializer.data,
-            }
-            return data
-        except Exception as e:
-            return Response(
-                {"success": False, "error": f"{str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-    def featured_articles(self, request):
-        """
-        Get Latest FEATURED Articles with Its Respective Category Data (Limit)
-        """
-        try:
-            featured_article = (
-                Article_Model.objects.filter(is_featured=True)
-                .order_by("-created_at")
-                .select_related("category", "author")[:5]
-            )
-            serializer = Article_Serializer(featured_article, many=True)
-            data = {
-                "featured_articles_totalHits": len(serializer.data),
-                "featured_articles": serializer.data,
             }
             return data
         except Exception as e:
@@ -129,6 +104,50 @@ class Homepage_View(APIView):
                 {"success": False, "error": f"{str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+    def featured_articles(self, request):
+        """
+        Get Latest FEATURED Articles with Its Respective Category Data (Limit)
+        """
+        try:
+            featured_article = (
+                Article_Model.objects.filter(is_featured=True)
+                .order_by("-created_at")
+                .select_related("category", "author")[:5]
+            )
+            serializer = Article_Serializer(featured_article, many=True)
+            data = {
+                "featured_articles_totalHits": len(serializer.data),
+                "featured_articles": serializer.data,
+            }
+            return data
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"{str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class Homepage_View(APIView):
+    """
+    Categorized Articles i.e. 5 Articles per Category
+    """
+
+    def get(self, request):
+        # Empty List to Store all context data
+        result = []
+
+        articles_categorized = self.articles_categorized(request)
+
+        result.append(articles_categorized)
+
+        return Response(
+            {
+                "success": True,
+                "data": result,
+            },
+            status=status.HTTP_200_OK,
+        )
 
     def articles_categorized(self, request):
         """
