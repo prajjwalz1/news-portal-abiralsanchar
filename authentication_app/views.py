@@ -103,10 +103,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
                 response.set_cookie(
-                    "user_token", user_token, httponly=False, secure=False
+                    "user_token", user_token, httponly=True, secure=True
                 )
                 response.set_cookie(
-                    "access_token", access_token, httponly=False, secure=False
+                    "access_token", access_token, httponly=True, secure=True
                 )
 
             except Exception as e:
@@ -117,7 +117,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
             # Set the access token in a cookie
             response.set_cookie(
-                "refresh_token", refresh_token, httponly=False, secure=False
+                "refresh_token", refresh_token, httponly=True, secure=True
             )
 
             response.data["success"] = True
