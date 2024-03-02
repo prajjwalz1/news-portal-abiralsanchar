@@ -102,24 +102,17 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     settings.SIMPLE_JWT_SECRET_KEY,
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
-                response.set_cookie(
-                    "user_token", user_token, httponly=True, secure=True
-                )
-                response.set_cookie(
-                    "access_token", access_token, httponly=True, secure=True
-                )
-
+                response.set_cookie("user_token", user_token, httponly=False, secure=True)
+                response.set_cookie("access_token", access_token, httponly=False, secure=True)
+                response.set_cookie("refresh_token", refresh_token, httponly=False, secure=True)
+            
             except Exception as e:
                 return Response(
                     {"success": False, "error": f"Login Failed! {str(e)}"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            # Set the access token in a cookie
-            response.set_cookie(
-                "refresh_token", refresh_token, httponly=True, secure=True
-            )
-
+           
             response.data["success"] = True
             response.data["message"] = "Login Successful"
 
