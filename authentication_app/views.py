@@ -57,12 +57,12 @@ class LogoutView(APIView):
 
 
 # Login View
-@cache_control(max_age=3600) 
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     """
     This Function Authenticates the User LOGIN and Creates 2 Cookies that stores access_token & refresh_token
     """
-
+    @cache_control(max_age=3600) 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
      
