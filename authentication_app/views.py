@@ -12,6 +12,7 @@ from authentication_app.serializers import (
 from authentication_app.models import CustomUserModel
 import jwt
 from django.conf import settings
+from django.views.decorators.cache import cache_control
 
 
 # Protected View Testing using Custom Mixins and Decorater
@@ -56,6 +57,7 @@ class LogoutView(APIView):
 
 
 # Login View
+@cache_control(max_age=3600) 
 class CustomTokenObtainPairView(TokenObtainPairView):
     """
     This Function Authenticates the User LOGIN and Creates 2 Cookies that stores access_token & refresh_token
