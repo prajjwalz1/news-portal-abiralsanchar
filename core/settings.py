@@ -157,13 +157,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_PRIVATE_NETWORK = True
-CORS_ALLOWED_ORIGINS = [
-    "https://news-udip.netlify.app",
-    "https://abiralsanchar.com",
-    "http://127.0.0.1:5500",
-]
+
 
 
 ACCESS_TOKEN_LIFETIME = int(os.getenv("ACCESS_TOKEN_LIFETIME"))
