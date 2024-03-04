@@ -105,7 +105,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 )
                 response.set_cookie("user_token", user_token, httponly=True, secure=False)
                 response.set_cookie("access_token", access_token, httponly=True, secure=False)
-                response.set_cookie("refresh_token", refresh_token, httponly=True, Truesecure=False)
+                response.set_cookie("refresh_token", refresh_token, httponly=True, secure=False)
             
             except Exception as e:
                 return Response(
