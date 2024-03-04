@@ -10,6 +10,7 @@ class AccessTokenMixin:
         refresh_token = request.COOKIES.get("refresh_token")
         access_token = request.COOKIES.get("access_token")
         user_token = request.COOKIES.get("user_token")
+        print(refresh_token,access_token,user_token)
 
         # User Token is Required to Create,Update articles
         if not user_token:
