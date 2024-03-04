@@ -116,9 +116,11 @@ class CustomTokenObtainPairView(TokenObtainPairView):
            
             response.data["success"] = True
             response.data["message"] = "Login Successful"
-
-        return response
-
+            print(response.data)
+            return response
+        else:
+            return response
+            
 
 class SignupView(APIView):
     """
