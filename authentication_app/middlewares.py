@@ -80,7 +80,7 @@ class JWTMiddleware:
 
                     # Set the new access_token cookie
                     response.set_cookie(
-                        "access_token", new_access_token, httponly=True, secure=True
+                        "access_token", new_access_token, httponly=True, secure=False
                     )
                     return response
 

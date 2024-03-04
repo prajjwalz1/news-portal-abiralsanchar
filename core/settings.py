@@ -104,7 +104,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3"
     }
 }
 
@@ -162,6 +162,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_PRIVATE_NETWORK = True
 CORS_ALLOWED_ORIGINS = [
     "https://news-udip.netlify.app"
+    "http://localhost:3000"
 ]
 
 
