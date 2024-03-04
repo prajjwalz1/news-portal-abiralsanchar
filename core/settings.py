@@ -162,9 +162,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_PRIVATE_NETWORK = True
 CORS_ALLOWED_ORIGINS = [
     "https://news-udip.netlify.app",
-    "http://localhost:3000",
+    "https://www.abiralsanchar.com",
     "http://127.0.0.1:5500",
-    "http://127.0.0.1:5500"
 ]
 
 
