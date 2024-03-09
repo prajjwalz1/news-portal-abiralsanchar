@@ -58,13 +58,14 @@ class LogoutView(APIView):
 
 # Login View
 
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     """
     This Function Authenticates the User LOGIN and Creates 2 Cookies that stores access_token & refresh_token
     """
+
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-     
 
         # Customize the response to set tokens in cookies
         if "access" in response.data and "refresh" in response.data:
@@ -103,21 +104,28 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     settings.SIMPLE_JWT_SECRET_KEY,
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
-                response.set_cookie("user_token", user_token, httponly=False, secure=False)
-                response.set_cookie("access_token", access_token, httponly=False, secure=False)
-                response.set_cookie("refresh_token", refresh_token, httponly=False, secure=False)
-            
+                response.set_cookie(
+                    "user_token", user_token, httponly=False, secure=False
+                )
+                response.set_cookie(
+                    "access_token", access_token, httponly=False, secure=False
+                )
+                response.set_cookie(
+                    "refresh_token", refresh_token, httponly=False, secure=False
+                )
+
             except Exception as e:
                 return Response(
                     {"success": False, "error": f"Login Failed! {str(e)}"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-           
             response.data["success"] = True
             response.data["message"] = "Login Successful"
-
-        return response
+            print(response.data)
+            return response
+        else:
+            return response
 
 
 class SignupView(APIView):
