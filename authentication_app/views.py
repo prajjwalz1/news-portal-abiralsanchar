@@ -111,7 +111,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     "access_token", access_token, httponly=False,domain="https://news-udip.netlify.app", secure=False
                 )
                 response.set_cookie(
-                    "refresh_token", refresh_token, httponly=False,domain="https://news-udip.netlify.app", secure=False
+                    "refresh_token", refresh_token, httponly=False,domain="https://jsugauta1.pythonanywhere.com/" ,secure=False
                 )
 
             except Exception as e:
