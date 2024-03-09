@@ -80,15 +80,15 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 user_id = decoded_access_token["user_id"]
                 user_object = CustomUserModel.objects.get(pk=user_id)
 
-                # Remove acccess/refresh tokenfrom the Default Response
+                # Remove acccess/refresh token from the Default Response
                 response.data = {}
                 user_role = "normal"
-                # If the user is superuser then Add that detail in Resposne
+                # If the user is superuser then Add that detail in Response
                 if user_object.is_superuser:
                     response.data["is_superuser"] = True
                     user_role = "superuser"
 
-                # If the user is staff then Add that detail in Resposne
+                # If the user is staff then Add that detail in Response
                 elif user_object.is_staff:
                     response.data["is_staff"] = True
                     user_role = "staff"
@@ -104,15 +104,17 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     settings.SIMPLE_JWT_SECRET_KEY,
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
+                # Set cookies with appropriate domain and secure attribute
                 response.set_cookie(
-                    "user_token", user_token, httponly=False, domain="https://news-udip.netlify.app", secure=False
+                    "user_token", user_token, httponly=False, domain="https://news-udip.netlify.app"
                 )
                 response.set_cookie(
-                    "access_token", access_token, httponly=False,domain="https://news-udip.netlify.app", secure=False
+                    "access_token", access_token, httponly=False, domain="https://news-udip.netlify.app"
                 )
                 response.set_cookie(
-                    "refresh_token", refresh_token, httponly=False,domain="https://jsugauta1.pythonanywhere.com/" ,secure=False
+                    "refresh_token", refresh_token, httponly=False, domain="https://jsugauta1.pythonanywhere.com/"
                 )
+
 
             except Exception as e:
                 return Response(
@@ -126,7 +128,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             return response
         else:
             return response
-
 
 class SignupView(APIView):
     """
