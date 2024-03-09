@@ -108,6 +108,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 response.set_cookie(
                     "user_token", user_token, httponly=False, secure=False
                 )
+                response.set_cookie(
+                    "access_token", access_token, httponly=False, secure=False
+                )
                 # response.set_cookie(
                 #     "access_token", access_token, httponly=False, domain="127.0.0.1", secure=False
                 # )
@@ -122,6 +125,11 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     {"success": False, "error": f"Login Failed! {str(e)}"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+
+            # Set the access token in a cookie
+            response.set_cookie(
+                "refresh_token", refresh_token, httponly=False, secure=False
+            )
 
             response.data["success"] = True
             response.data["message"] = "Login Successful"
