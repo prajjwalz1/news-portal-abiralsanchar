@@ -105,13 +105,13 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
                 response.set_cookie(
-                    "user_token", user_token, httponly=False, secure=False
+                    "user_token", user_token, httponly=False, domain="https://news-udip.netlify.app", secure=False
                 )
                 response.set_cookie(
-                    "access_token", access_token, httponly=False, secure=False
+                    "access_token", access_token, httponly=False,domain="https://news-udip.netlify.app", secure=False
                 )
                 response.set_cookie(
-                    "refresh_token", refresh_token, httponly=False, secure=False
+                    "refresh_token", refresh_token, httponly=False,domain="https://news-udip.netlify.app", secure=False
                 )
 
             except Exception as e:

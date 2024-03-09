@@ -35,6 +35,8 @@
             })
             .then(response => {
                 if (response.ok) {
+                    // Display cookies in the console
+                    console.log(document.cookie);
                     return response.json();
                 }
                 throw new Error('Login failed');
@@ -51,6 +53,8 @@
                 document.getElementById('message').textContent = 'Login failed. Please try again.';
             });
         });
+
     </script>
+    
 </body>
 </html>
