@@ -104,9 +104,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     settings.SIMPLE_JWT_SECRET_KEY,
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
-                response.set_cookie("user_token", user_token,domain='.abiralsanchar.com', httponly=False, secure=False)
-                response.set_cookie("access_token", access_token, httponly=False, secure=False)
-                response.set_cookie("refresh_token", refresh_token, httponly=False, secure=False)
+                response.set_cookie("user_token", user_token,domain=['.abiralsanchar.com','.news-udip.netlify.app','.127.0.0.1:5500','.localhost.com'], httponly=False, secure=False)
+                response.set_cookie("access_token", access_token,domain=['.abiralsanchar.com','.news-udip.netlify.app','.127.0.0.1:5500','.localhost.com'], httponly=False, secure=False)
+                response.set_cookie("refresh_token", refresh_token,domain=['.abiralsanchar.com','.news-udip.netlify.app','.127.0.0.1:5500','.localhost.com'], httponly=False, secure=False)
             
             except Exception as e:
                 return Response(
