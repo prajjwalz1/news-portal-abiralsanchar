@@ -106,10 +106,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 )
                 # Set cookies with appropriate domain and secure attribute
                 response.set_cookie(
-                    "user_token", user_token, httponly=False, secure=False
+                    "user_token", user_token, httponly=False, samesite='None', secure=True
                 )
                 response.set_cookie(
-                    "access_token", access_token, httponly=False, secure=False
+                    "access_token", access_token, httponly=False, samesite='None', secure=True
                 )
                 # response.set_cookie(
                 #     "access_token", access_token, httponly=False, domain="127.0.0.1", secure=False

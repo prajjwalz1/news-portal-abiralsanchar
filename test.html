@@ -23,13 +23,13 @@
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
+            event.preventDefault(); // Prevent the default form submission behavior
+            
             // Get form data
             const formData = new FormData(this);
 
             // Send POST request to API endpoint
-            fetch('https://jsugauta1.pythonanywhere.com/api/token/', {
+            fetch('http://127.0.0.1:8000/api/token/', {
                 method: 'POST',
                 body: formData
             })
@@ -45,7 +45,7 @@
                 // Handle successful login
                 console.log(data);
                 document.getElementById('message').textContent = 'Login successful';
-                // Redirect user to another page, etc.
+                // You can add further actions here if needed
             })
             .catch(error => {
                 // Handle login error
@@ -53,8 +53,6 @@
                 document.getElementById('message').textContent = 'Login failed. Please try again.';
             });
         });
-
     </script>
-    
 </body>
 </html>
