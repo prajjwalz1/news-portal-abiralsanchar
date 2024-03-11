@@ -106,10 +106,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 )
                 # Set cookies with appropriate domain and secure attribute
                 response.set_cookie(
-                    "user_token", user_token,domain='.localhost.com', httponly=False, samesite='None', secure=True
+                    "user_token", user_token,domain='localhost', httponly=False, samesite='None', secure=True
                 )
                 response.set_cookie(
-                    "access_token", access_token,domain='.localhost.com', httponly=False, samesite='None', secure=True
+                    "access_token", access_token,domain='localhost', httponly=False, samesite='None', secure=True
                 )
 
             except Exception as e:
@@ -120,7 +120,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
             # Set the refresh token in a cookie
             response.set_cookie(
-                "refresh_token", refresh_token,domain='.localhost.com', httponly=False, samesite='None', secure=True
+                "refresh_token", refresh_token,domain='localhost', httponly=False, samesite='None', secure=True
             )
 
             # Update response data with success and message
