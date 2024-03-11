@@ -46,7 +46,7 @@ class Navbar_View(APIView):
             navbar_category = (
                 Category_Model.objects.filter(is_on_navbar=True)
                 .values("title", "slug")
-                .order_by("-created_at")[:5]
+                .order_by("-created_at")[:8]
             )
             serializer = Category_On_Navbar_Serializer(navbar_category, many=True)
             data = {
@@ -91,7 +91,7 @@ class Navbar_View(APIView):
             latest_article = (
                 Article_Model.objects.order_by("-created_at")
                 .exclude(is_featured=True)
-                .select_related("category", "author")[:5]
+                .select_related("category", "author")[:8]
             )
             serializer = Article_Serializer(latest_article, many=True)
             data = {
