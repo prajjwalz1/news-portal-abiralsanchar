@@ -112,10 +112,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 #     "user_token", user_token, httponly=False, samesite='None', secure=True
                 # )
                 response.set_cookie(
-                    "access_token", access_token,domain="front.localhost.com:3000",samesite="None",secure=True
+                    "access_token", access_token,domain=".front.localhost.com:3000",samesite="None",secure=True
                 )
                 response.set_cookie(
-                    "user_token", user_token,domain="front.localhost.com",samesite="None",secure=True
+                    "user_token", user_token,domain=".front.localhost.com",samesite="None",secure=True
                 )
 
             except Exception as e:
@@ -126,7 +126,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
             # Set the refresh token in a cookie
             response.set_cookie(
-                "refresh_token", refresh_token,domain="front.localhost.com" ,samesite='None',secure=True
+                "refresh_token", refresh_token,domain=".front.localhost.com" ,samesite='None',secure=True
             )
 
             # Update response data with success and message
