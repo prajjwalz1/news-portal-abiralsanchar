@@ -104,25 +104,14 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     settings.SIMPLE_JWT_SECRET_KEY,
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
-                # Set cookies with appropriate domain and secure attribute
-                # response.set_cookie(
-                #     "access_token", access_token, httponly=False, samesite='None', secure=True
-                # )
-                # response.set_cookie(
-                #     "user_token", user_token, httponly=False, samesite='None', secure=True
-                # )
+              
                 response.set_cookie(
-                    "access_token", access_token,domain=".localhost.com",samesite="None",secure=True
+                     "user_token", user_token, httponly=False, samesite='None', secure=True
                 )
                 response.set_cookie(
                     "access_token", access_token, httponly=False, samesite='None', secure=True
                 )
-                # response.set_cookie(
-                #     "access_token", access_token, httponly=False, domain="127.0.0.1", secure=False
-                # )
-                # response.set_cookie(
-                #     "refresh_token", refresh_token, httponly=False, domain="127.0.0.1", secure=False
-                # )
+
 
 
 
@@ -134,7 +123,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
             # Set the access token in a cookie
             response.set_cookie(
-                "refresh_token", refresh_token, httponly=False, secure=False
+                "refresh_token", refresh_token, httponly=False, samesite='None', secure=True
             )
 
             response.data["success"] = True
