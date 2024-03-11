@@ -105,11 +105,17 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
                 # Set cookies with appropriate domain and secure attribute
+                # response.set_cookie(
+                #     "access_token", access_token, httponly=False, samesite='None', secure=True
+                # )
+                # response.set_cookie(
+                #     "user_token", user_token, httponly=False, samesite='None', secure=True
+                # )
                 response.set_cookie(
-                    "user_token", user_token,domain='localhost', httponly=False, samesite='None', secure=True
+                    "access_token", access_token,samesite="None"
                 )
                 response.set_cookie(
-                    "access_token", access_token,domain='localhost', httponly=False, samesite='None', secure=True
+                    "user_token", user_token,samesite="None"
                 )
 
             except Exception as e:
@@ -120,7 +126,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
             # Set the refresh token in a cookie
             response.set_cookie(
-                "refresh_token", refresh_token,domain='localhost', httponly=False, samesite='None', secure=True
+                "refresh_token", refresh_token, samesite='None',
             )
 
             # Update response data with success and message

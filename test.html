@@ -18,20 +18,19 @@
         </div>
         <button type="submit">Login</button>
     </form>
-
     <div id="message"></div>
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission behavior
 
-            const formData = new FormData(this); // Get form data
+            const formData = new FormData(document.getElementById('loginForm')); // Get form data
 
             // Send POST request to API endpoint with credentials included
-            fetch('http://jsugauta1.pythonanywhere.com/api/token/', {
+            fetch('http://localhost:8000/api/token/', {
                 method: 'POST',
                 body: formData,
-                credentials: 'include' // Include cookies in cross-origin requests
+                // credentials: 'include' // Include cookies in cross-origin requests
             })
             .then(response => {
                 if (response.ok) {
@@ -45,7 +44,7 @@
                 // Handle successful login
                 console.log(data);
                 document.getElementById('message').textContent = 'Login successful';
-                // Redirect user to another page, etc.
+                // Optionally, you can redirect the user or perform other actions here
             })
             .catch(error => {
                 // Handle login error
