@@ -109,7 +109,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                      "user_token", user_token, httponly=False, samesite='None', secure=True
                 )
                 response.set_cookie(
-                    "access_token", access_token, httponly=False, samesite='None', secure=True
+                    "access_token", access_token, httponly=False, samesite='None', max_age=7200, secure=True
                 )
 
 
