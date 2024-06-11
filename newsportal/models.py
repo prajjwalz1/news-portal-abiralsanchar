@@ -36,7 +36,7 @@ class Article_Model(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     image1 = models.ImageField(upload_to="articles/")
     image2 = models.ImageField(upload_to="articles/", null=True, blank=True)
-    is_featured = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=True)
     is_trending = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
