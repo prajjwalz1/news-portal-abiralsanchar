@@ -37,7 +37,7 @@ class Article_Model(models.Model):
     image1 = models.ImageField(upload_to="articles/")
     image2 = models.ImageField(upload_to="articles/", null=True, blank=True)
     is_featured = models.BooleanField(default=True)
-    is_trending = models.BooleanField(default=False)
+    is_trending = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         # Generate or update the slug based on the title

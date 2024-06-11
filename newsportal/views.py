@@ -339,6 +339,8 @@ class Article_View(APIView):
         user_token_payload = getattr(request, "user_token_payload", False)
         user_id = user_token_payload["user_id"]
         request.data["author"] = user_id
+        user_id = user_token_payload["user_id"]
+        request.data["is_featured"] = True
         serializer = Article_Serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
