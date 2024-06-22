@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from authentication_app.decoraters import access_token_required
-
+from django.http import HttpResponse
+from django.http import FileResponse
 
 class Navbar_View(APIView):
     """
@@ -468,7 +469,7 @@ class News(APIView):
     def get(self, request):
         request_type = request.GET.get("request")
         news_id = request.GET.get("news_id")
-        print(news_id,request_type)
+        print(news_id, request_type)
         
         if not request_type or not news_id:
             return Response({"success": False, "message": "request_type and news_id are required"}, status=status.HTTP_400_BAD_REQUEST)
@@ -480,15 +481,17 @@ class News(APIView):
         
         try:
             article = Article_Model.objects.get(id=news_id)
-            qs = {"image1": article.image1}
+            image_path = article.image1.path  # Assuming image1 is an ImageField/FileField
         except Article_Model.DoesNotExist:
             return Response({"success": False, "message": "Article not found"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"success": False, "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        print(image_path)
+        try:
+            image_file = open(image_path, 'rb')
+            response = FileResponse(image_file, content_type='image/jpeg')
+            response['Content-Disposition'] = f'inline; filename="{article.image1.name}"'
+            return response
+        except Exception as e:
+            return Response({"success": False, "message": f"Failed to open image file: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-        serializer = Thumbnailserialzier(data=qs,context={"request":request})
-        
-        if serializer.is_valid():
-            return Response({"success": True, "message": "Successfully retrieved image", "data": serializer.data}, status=status.HTTP_200_OK)
-        
-        return Response({"success": False, "message": "Failed to retrieve article image", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
