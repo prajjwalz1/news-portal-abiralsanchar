@@ -461,3 +461,34 @@ class Category_View(APIView):
         return Response(
             {"success": True, "data": serializer.data}, status=status.HTTP_201_CREATED
         )
+
+
+
+class News(APIView):
+    def get(self, request):
+        request_type = request.GET.get("request")
+        news_id = request.GET.get("news_id")
+        print(news_id,request_type)
+        
+        if not request_type or not news_id:
+            return Response({"success": False, "message": "request_type and news_id are required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        data = {
+            "request": request_type,
+            "news_id": news_id
+        }
+        
+        try:
+            article = Article_Model.objects.get(id=news_id)
+            qs = {"image1": article.image1}
+        except Article_Model.DoesNotExist:
+            return Response({"success": False, "message": "Article not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"success": False, "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        serializer = Thumbnailserialzier(data=qs,context={"request":request})
+        
+        if serializer.is_valid():
+            return Response({"success": True, "message": "Successfully retrieved image", "data": serializer.data}, status=status.HTTP_200_OK)
+        
+        return Response({"success": False, "message": "Failed to retrieve article image", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

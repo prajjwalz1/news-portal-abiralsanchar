@@ -33,3 +33,13 @@ class Category_Article_Serializer(serializers.Serializer):
 class Combined_Category_Article_Serializer(serializers.Serializer):
     # Bundle Up (1:5) Category:Article and return value 'category_article_data'
     category_article_data = Category_Article_Serializer(many=True)
+
+
+# class Thumbnailserialzier(serializers.Serizlier):
+#     news_id=serializers.charfield(null=False)
+#     request=serializers.charfield(null=False)
+
+class Thumbnailserialzier(serializers.ModelSerializer):
+    class Meta:
+        model=Article_Model
+        fields=["image1"]

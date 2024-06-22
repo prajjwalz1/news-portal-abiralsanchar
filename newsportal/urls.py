@@ -13,6 +13,7 @@ urlpatterns = [
         "api/v1/news/category/<str:category_slug>/",
         Individual_Category_Article_View.as_view(),
     ),
+    path("api/v1/getnewsthumbnail", News.as_view()),
 ]
 
 
