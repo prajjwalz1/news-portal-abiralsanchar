@@ -165,7 +165,7 @@ class Homepage_View(APIView):
 
             for category in categories:
                 # Get 5 Articles of Category 'X'
-                articles = Article_Model.objects.filter(category=category)[:5]
+                articles = Article_Model.objects.filter(category=category)[:5].order_by('-created_at')
 
                 # Serializing 5 article model instances  | '.data' = serializer.data
                 serialized_articles = Article_Serializer(articles, many=True).data
