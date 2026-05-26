@@ -56,10 +56,7 @@ class Navbar_View(APIView):
             }
             return data
         except Exception as e:
-            return Response(
-                {"success": False, "error": f"{str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return {"success": False, "error": str(e)}
 
     def trending_articles(self, request):
         """
@@ -72,17 +69,14 @@ class Navbar_View(APIView):
                 .exclude(is_featured=True)
                 .select_related("category", "author")[:5]
             )
-            serializer = Article_Serializer(trending_article, many=True)
+            serializer = Article_Serializer(trending_article, many=True, context={'request': request})
             data = {
                 "trending_articles_totalHits": len(serializer.data),
                 "trending_articles": serializer.data,
             }
             return data
         except Exception as e:
-            return Response(
-                {"success": False, "error": f"{str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return {"success": False, "error": str(e)}
 
     def latest_articles(self, request):
         """
@@ -94,17 +88,14 @@ class Navbar_View(APIView):
                 .exclude(is_featured=True)
                 .select_related("category", "author")[:8]
             )
-            serializer = Article_Serializer(latest_article, many=True)
+            serializer = Article_Serializer(latest_article, many=True, context={'request': request})
             data = {
                 "latest_articles_totalHits": len(serializer.data),
                 "latest_articles": serializer.data,
             }
             return data
         except Exception as e:
-            return Response(
-                {"success": False, "error": f"{str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return {"success": False, "error": str(e)}
 
     def featured_articles(self, request):
         """
@@ -116,17 +107,14 @@ class Navbar_View(APIView):
                 .order_by("-created_at")
                 .select_related("category", "author")[:5]
             )
-            serializer = Article_Serializer(featured_article, many=True)
+            serializer = Article_Serializer(featured_article, many=True, context={'request': request})
             data = {
                 "featured_articles_totalHits": len(serializer.data),
                 "featured_articles": serializer.data,
             }
             return data
         except Exception as e:
-            return Response(
-                {"success": False, "error": f"{str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return {"success": False, "error": str(e)}
 
 
 class Homepage_View(APIView):
@@ -167,34 +155,21 @@ class Homepage_View(APIView):
                 # Get 5 Articles of Category 'X'
                 articles = Article_Model.objects.filter(category=category).order_by('-created_at')[:5]
 
-                # Serializing 5 article model instances  | '.data' = serializer.data
-                serialized_articles = Article_Serializer(articles, many=True).data
+                serialized_articles = Article_Serializer(articles, many=True, context={'request': request}).data
 
-                # Now we bundle up Category 'X' with 5 respective articles and append to List
                 category_data = {
-                    "category_title": category.title,  # Can also send category PK i.e. 'id'
+                    "category_title": category.title,
                     "articles": serialized_articles,
                 }
                 category_article_list.append(category_data)
 
-            context = {
-                "category_article_data": category_article_list,
-            }
-
-            # Serialize the context
-            serializer = Combined_Category_Article_Serializer(data=context)
-            serializer.is_valid()
-
             data = {
-                "articles_categorized_totalHits": len(serializer.data),
-                "articles_categorized": serializer.data,
+                "articles_categorized_totalHits": len(category_article_list),
+                "articles_categorized": category_article_list,
             }
             return data
         except Exception as e:
-            return Response(
-                {"success": False, "error": f"{str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return {"success": False, "error": str(e)}
 
 
 class Individual_Category_Article_View(APIView):
@@ -214,7 +189,7 @@ class Individual_Category_Article_View(APIView):
             paginator = self.pagination_class()
             paginated_articles = paginator.paginate_queryset(articles, request)
 
-            serializer = Article_Serializer(paginated_articles, many=True)
+            serializer = Article_Serializer(paginated_articles, many=True, context={'request': request})
 
             return Response(
                 {
@@ -251,7 +226,7 @@ class Article_View(APIView):
                 paginated_articles = paginator.paginate_queryset(
                     all_article_query, request
                 )
-                serializer = Article_Serializer(paginated_articles, many=True)
+                serializer = Article_Serializer(paginated_articles, many=True, context={'request': request})
                 return Response(
                     {
                         "success": True,
@@ -269,7 +244,7 @@ class Article_View(APIView):
             # Its a Single Article Get Request so , Fetching a single category by PK
             try:
                 article = Article_Model.objects.get(pk=pk)
-                serializer = Article_Serializer(article)
+                serializer = Article_Serializer(article, context={'request': request})
                 return Response(
                     {
                         "success": True,
