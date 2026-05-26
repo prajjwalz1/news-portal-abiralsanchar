@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-import platform
 from django.conf import settings
 from datetime import timedelta
 
@@ -10,13 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # python-dotenv
 from dotenv import load_dotenv
 
-system = platform.system()
-
-if system == "Windows":
-    load_dotenv()
-elif system == "Linux":
-    env_location = os.path.join(BASE_DIR, ".env")
-    load_dotenv(env_location)
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
