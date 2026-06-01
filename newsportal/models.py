@@ -49,6 +49,33 @@ class Article_Model(models.Model):
         return self.title
 
 
+class Ad_Model(models.Model):
+    SECTION_CHOICES = [
+        ("homepage_top", "Homepage Top"),
+        ("homepage_upper_middle", "Homepage Upper Middle"),
+        ("homepage_middle", "Homepage Middle"),
+        ("homepage_bottom", "Homepage Bottom"),
+        ("article_top", "Article Top"),
+        ("article_bottom", "Article Bottom"),
+        ("sidebar", "Sidebar"),
+    ]
+
+    title = models.CharField(max_length=255)
+    section = models.CharField(max_length=50, choices=SECTION_CHOICES)
+    priority = models.PositiveIntegerField(default=1)
+    image = models.ImageField(upload_to="ads/", null=True, blank=True)
+    link = models.URLField(max_length=500, null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["section", "priority"]
+
+    def __str__(self):
+        return f"{self.title} ({self.section})"
+
+
 @receiver(post_delete, sender=Article_Model)
 def delete_article_images(sender, instance, **kwargs):
     # Delete the article images after the article obj is completly deleted

@@ -1,4 +1,6 @@
-from newsportal.models import Article_Model, Category_Model
+from calendar import c
+
+from newsportal.models import Article_Model, Category_Model, Ad_Model
 from newsportal.serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -470,3 +472,59 @@ class News(APIView):
         except Exception as e:
             return Response({"success": False, "message": f"Failed to open image file: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+
+
+class Ad_View(APIView):
+    """
+    GET  /api/v1/ads/          - list all active ads (public)
+    GET  /api/v1/ads/?section= - filter by section (public)
+    GET  /api/v1/ads/<pk>/     - single ad
+    POST /api/v1/ads/          - create ad (auth required)
+    PATCH/api/v1/ads/<pk>/     - update ad (auth required)
+    DELETE /api/v1/ads/<pk>/   - delete ad (auth required)
+    """
+
+    def get(self, request, pk=None):
+        if pk:
+            try:
+                ad = Ad_Model.objects.get(pk=pk)
+                serializer = Ad_Serializer(ad, context={'request': request})
+                return Response({"success": True, "data": serializer.data})
+            except Ad_Model.DoesNotExist:
+                return Response({"success": False, "error": "Ad not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        section = request.query_params.get("section")
+        qs = Ad_Model.objects.all()
+        if section:
+            qs = qs.filter(section=section)
+        serializer = Ad_Serializer(qs, many=True, context={'request': request})
+        return Response({"success": True, "data": serializer.data})
+
+    @access_token_required
+    def post(self, request):
+        serializer = Ad_Serializer(data=request.data,context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"success": True, "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({"success": False, "error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    @access_token_required
+    def patch(self, request, pk=None):
+        try:
+            ad = Ad_Model.objects.get(pk=pk)
+        except Ad_Model.DoesNotExist:
+            return Response({"success": False, "error": "Ad not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = Ad_Serializer(ad, data=request.data, partial=True, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"success": True, "data": serializer.data})
+        return Response({"success": False, "error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    @access_token_required
+    def delete(self, request, pk=None):
+        try:
+            ad = Ad_Model.objects.get(pk=pk)
+            ad.delete()
+            return Response({"success": True, "message": "Ad deleted"})
+        except Ad_Model.DoesNotExist:
+            return Response({"success": False, "error": "Ad not found"}, status=status.HTTP_404_NOT_FOUND)

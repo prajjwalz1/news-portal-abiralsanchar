@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from newsportal.models import Article_Model, Category_Model
+from newsportal.models import Article_Model, Category_Model, Ad_Model
 
 
 class Article_Serializer(serializers.ModelSerializer):
@@ -43,3 +43,9 @@ class Thumbnailserialzier(serializers.ModelSerializer):
     class Meta:
         model=Article_Model
         fields=["image1"]
+
+
+class Ad_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ad_Model
+        fields = "__all__"

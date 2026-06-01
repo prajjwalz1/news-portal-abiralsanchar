@@ -1,4 +1,5 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -32,26 +33,15 @@ class LogoutView(APIView):
     """
 
     def post(self, request, *args, **kwargs):
-        # Fetchign the refresh_token from COOKIE
-        refresh_token = request.COOKIES.get("refresh_token")
-
-        if not refresh_token:
-            return Response(
-                {"success:": False, "error": "User not Logged In!"},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
         try:
-            # Clear cookies
             response = Response({"success": True, "message": "Logout Success"})
             response.delete_cookie("access_token")
             response.delete_cookie("refresh_token")
             response.delete_cookie("user_token")
             return response
-
         except Exception as e:
             return Response(
-                {"success:": False, "error": f"Logout failed. {str(e)}"},
+                {"success": False, "error": f"Logout failed. {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -105,15 +95,11 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     algorithm=settings.SIMPLE_JWT_ALGORITHM,
                 )
               
-                response.set_cookie(
-                     "user_token", user_token, httponly=False, samesite='None', secure=True
-                )
-                response.set_cookie(
-                    "access_token", access_token, httponly=False, samesite='None', max_age=7200, secure=True
-                )
+                is_secure = not settings.DEBUG
+                cookie_kwargs = {"httponly": False, "samesite": "Lax" if settings.DEBUG else "None", "secure": is_secure}
 
-
-
+                response.set_cookie("user_token", user_token, **cookie_kwargs)
+                response.set_cookie("access_token", access_token, max_age=7200, **cookie_kwargs)
 
             except Exception as e:
                 return Response(
@@ -121,14 +107,17 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            # Set the access token in a cookie
+            is_secure = not settings.DEBUG
             response.set_cookie(
-                "refresh_token", refresh_token, httponly=False, samesite='None', secure=True
+                "refresh_token", refresh_token,
+                httponly=False,
+                samesite="Lax" if settings.DEBUG else "None",
+                secure=is_secure,
             )
 
             response.data["success"] = True
             response.data["message"] = "Login Successful"
-            print(response.data)
+            response.data["access_token"] = access_token
             return response
         else:
             return response
@@ -292,4 +281,40 @@ class PasswordChangeView(UserView, APIView):
             return Response(
                 {"success": False, "error": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class TokenRefreshFromCookieView(APIView):
+    """
+    Reads refresh_token from cookie, issues a new access_token and sets it as a cookie.
+    """
+
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.COOKIES.get("refresh_token")
+
+        if not refresh_token:
+            return Response(
+                {"success": False, "error": "No refresh token found"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        try:
+            refresh = RefreshToken(refresh_token)
+            new_access_token = str(refresh.access_token)
+
+            response = Response({"success": True, "message": "Token refreshed", "access_token": new_access_token})
+            response.set_cookie(
+                "access_token",
+                new_access_token,
+                httponly=False,
+                samesite="Lax" if settings.DEBUG else "None",
+                max_age=7200,
+                secure=not settings.DEBUG,
+            )
+            return response
+
+        except Exception as e:
+            return Response(
+                {"success": False, "error": f"Token refresh failed: {str(e)}"},
+                status=status.HTTP_401_UNAUTHORIZED,
             )

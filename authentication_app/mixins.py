@@ -5,12 +5,19 @@ import jwt
 from django.conf import settings
 
 
+def get_access_token(request):
+    """Read token from Authorization header first, then fall back to cookie."""
+    auth_header = request.headers.get("Authorization", "")
+    if auth_header.startswith("Bearer "):
+        return auth_header.split(" ", 1)[1]
+    return request.COOKIES.get("access_token")
+
+
 class AccessTokenMixin:
     def check_access_token(self, request):
         refresh_token = request.COOKIES.get("refresh_token")
-        access_token = request.COOKIES.get("access_token")
+        access_token = get_access_token(request)
         user_token = request.COOKIES.get("user_token")
-        print(refresh_token,access_token,user_token)
 
         # User Token is Required to Create,Update articles
         if not user_token:

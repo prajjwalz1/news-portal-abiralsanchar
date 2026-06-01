@@ -1,7 +1,7 @@
 from functools import wraps
 from rest_framework.response import Response
 from rest_framework import status
-from authentication_app.mixins import AccessTokenMixin
+from authentication_app.mixins import AccessTokenMixin, get_access_token
 from authentication_app.models import CustomUserModel
 import jwt
 from django.conf import settings
@@ -53,7 +53,7 @@ def staff_admin_required(view_func):
             response.delete_cookie("user_token")
             return response
         else:
-            access_token = request.COOKIES.get("access_token")
+            access_token = get_access_token(request)
             if not access_token:
                 return Response(
                     {"success:": False, "error": "ACCESS DENIED! User not Logged-In"},

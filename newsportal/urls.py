@@ -14,6 +14,8 @@ urlpatterns = [
         Individual_Category_Article_View.as_view(),
     ),
     path("api/v1/getnewsthumbnail", News.as_view()),
+    path("api/v1/ads/", Ad_View.as_view()),
+    path("api/v1/ads/<int:pk>/", Ad_View.as_view()),
 ]
 
 

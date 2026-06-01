@@ -10,11 +10,12 @@ from authentication_app.views import (
     SignupView,
     UserView,
     PasswordChangeView,
+    TokenRefreshFromCookieView,
 )
 
 urlpatterns = [
     path("api/token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
-    # path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/token/refresh/", TokenRefreshFromCookieView.as_view(), name="token_refresh"),
     path("api/logout/", LogoutView.as_view()),
     path("api/signup/", SignupView.as_view()),
     path("api/user/", UserView.as_view()),
